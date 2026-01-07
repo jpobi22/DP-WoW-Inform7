@@ -81,45 +81,46 @@ A trash-mob is a kind of person.
 A trash-mob has a number called trash-id.
 
 [========================
-  BOSSES
+  BOSSES (ICC ORDER)
 ========================]
 
-Boss One is a raid-boss in the Boss Room 1.
-The boss-id of Boss One is 1.
-The description is "Boss #1 (placeholder)."
+Lord Marrowgar is a raid-boss in the Boss Room 1.
+The boss-id of Lord Marrowgar is 1.
+The description is "Lord Marrowgar (placeholder)."
 
-Boss Two is a raid-boss in the Boss Room 2.
-The boss-id of Boss Two is 2.
+Lady Deathwhisper is a raid-boss in the Boss Room 2.
+The boss-id of Lady Deathwhisper is 2.
 
-Boss Three is a raid-boss in the Boss Room 3.
-The boss-id of Boss Three is 3.
+Gunship Battle is a raid-boss in the Boss Room 3.
+The boss-id of Gunship Battle is 3.
 
-Boss Four is a raid-boss in the Boss Room 4.
-The boss-id of Boss Four is 4.
+Deathbringer Saurfang is a raid-boss in the Boss Room 4.
+The boss-id of Deathbringer Saurfang is 4.
 
-Boss Five is a raid-boss in the Boss Room 5.
-The boss-id of Boss Five is 5.
+Festergut is a raid-boss in the Boss Room 5.
+The boss-id of Festergut is 5.
 
-Boss Six is a raid-boss in the Boss Room 6.
-The boss-id of Boss Six is 6.
+Rotface is a raid-boss in the Boss Room 6.
+The boss-id of Rotface is 6.
 
-Boss Seven is a raid-boss in the Boss Room 7.
-The boss-id of Boss Seven is 7.
+Professor Putricide is a raid-boss in the Boss Room 7.
+The boss-id of Professor Putricide is 7.
 
-Boss Eight is a raid-boss in the Boss Room 8.
-The boss-id of Boss Eight is 8.
+Blood Prince Council is a raid-boss in the Boss Room 8.
+The boss-id of Blood Prince Council is 8.
 
-Boss Nine is a raid-boss in the Boss Room 9.
-The boss-id of Boss Nine is 9.
+Blood-Queen Lana'thel is a raid-boss in the Boss Room 9.
+The boss-id of Blood-Queen Lana'thel is 9.
 
-Boss Ten is a raid-boss in the Boss Room 10.
-The boss-id of Boss Ten is 10.
+Valithria Dreamwalker is a raid-boss in the Boss Room 10.
+The boss-id of Valithria Dreamwalker is 10.
 
-Boss Eleven is a raid-boss in the Boss Room 11.
-The boss-id of Boss Eleven is 11.
+Sindragosa is a raid-boss in the Boss Room 11.
+The boss-id of Sindragosa is 11.
 
-Boss Twelve is a raid-boss in the Boss Room 12.
-The boss-id of Boss Twelve is 12.
+The Lich King is a raid-boss in the Boss Room 12.
+The boss-id of The Lich King is 12.
+
 
 [========================
   TRASH
@@ -139,6 +140,28 @@ Trash Pack 9 is a trash-mob in Trash 9.
 Trash Pack 10 is a trash-mob in Trash 10.
 Trash Pack 11 is a trash-mob in Trash 11.
 Trash Pack 12 is a trash-mob in Trash 12.
+
+[========================
+  DURABILITY / REPAIR
+========================]
+
+The revive-without-repair count is a number that varies.
+The revive-without-repair count is 0.
+
+The gear-broken is a truth state that varies.
+The gear-broken is false.
+
+Repairing is an action applying to nothing.
+Understand "repair" as repairing.
+
+Check repairing:
+	if the location is not the ICC Entrance:
+		say "You need a repair NPC. Go back to the raid entrance." instead.
+
+Carry out repairing:
+	now revive-without-repair count is 0;
+	now gear-broken is false;
+	say "You repair your gear. Everything feels solid again.";
 
 [========================
   DEATH + RELEASE SPIRIT
@@ -165,7 +188,43 @@ Check releasing spirit:
 Carry out releasing spirit:
 	now the player is alive;
 	move the player to the ICC Entrance;
-	say "You return to Icecrown Citadel. Status: [raid-status].";
+	increase revive-without-repair count by 1;
+	say "You release your spirit and fly back to Icecrown Citadel. Status: [raid-status].";
+	say "[paragraph break]Your equipment is a bit damaged from dying.";
+
+After releasing spirit when revive-without-repair count is 1:
+	say "You can still die and run back [bold type]2[roman type] more times before your gear becomes useless.";
+
+After releasing spirit when revive-without-repair count is 2:
+	say "Careful: you can only die and run back [bold type]1[roman type] more time before your gear becomes useless.";
+
+After releasing spirit when revive-without-repair count is 3:
+	now gear-broken is true;
+	say "Your gear is now [bold type]basically unusable[roman type]. You [bold type]MUST repair[roman type] before continuing.";
+
+After releasing spirit when revive-without-repair count > 3:
+	now gear-broken is true;
+	say "Your gear is still [bold type]unusable[roman type]. You [bold type]MUST repair[roman type] before continuing.";
+
+After releasing spirit:
+	say "[paragraph break][bold type]Repair now?[roman type] Type [bold type]repair[roman type] (recommended).";
+
+
+[========================
+  BLOCK PROGRESS IF GEAR IS BROKEN
+========================]
+
+Before going when gear-broken is true:
+	say "Your gear is broken. You must [bold type]repair[roman type] at the entrance before moving on." instead.
+
+Before doing something when gear-broken is true:
+	if the current action is repairing:
+		continue the action;
+	if the current action is looking:
+		continue the action;
+	if the current action is taking inventory:
+		continue the action;
+	say "Your gear is broken. Type [bold type]repair[roman type]." instead.
 
 [========================
   BLOCK ACTIONS WHILE DEAD
