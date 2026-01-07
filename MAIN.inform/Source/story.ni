@@ -69,3 +69,73 @@ The Boss Room 11 is north of Trash 11.
 
 The Trash 12 is south of the Boss Room 11.
 The Boss Room 12 is north of Trash 12.
+
+[========================
+  KINDS
+========================]
+
+A raid-boss is a kind of person.
+A raid-boss has a number called boss-id.
+
+A trash-mob is a kind of person.
+A trash-mob has a number called trash-id.
+
+[========================
+  BOSSES
+========================]
+
+Boss One is a raid-boss in the Boss Room 1.
+The boss-id of Boss One is 1.
+The description is "Boss #1 (placeholder)."
+
+Boss Two is a raid-boss in the Boss Room 2.
+The boss-id of Boss Two is 2.
+
+Boss Three is a raid-boss in the Boss Room 3.
+The boss-id of Boss Three is 3.
+
+Boss Four is a raid-boss in the Boss Room 4.
+The boss-id of Boss Four is 4.
+
+Boss Five is a raid-boss in the Boss Room 5.
+The boss-id of Boss Five is 5.
+
+Boss Six is a raid-boss in the Boss Room 6.
+The boss-id of Boss Six is 6.
+
+Boss Seven is a raid-boss in the Boss Room 7.
+The boss-id of Boss Seven is 7.
+
+Boss Eight is a raid-boss in the Boss Room 8.
+The boss-id of Boss Eight is 8.
+
+Boss Nine is a raid-boss in the Boss Room 9.
+The boss-id of Boss Nine is 9.
+
+Boss Ten is a raid-boss in the Boss Room 10.
+The boss-id of Boss Ten is 10.
+
+Boss Eleven is a raid-boss in the Boss Room 11.
+The boss-id of Boss Eleven is 11.
+
+Boss Twelve is a raid-boss in the Boss Room 12.
+The boss-id of Boss Twelve is 12.
+
+[========================
+  TRASH
+========================]
+
+Trash Pack 1 is a trash-mob in Trash 1.
+The trash-id of Trash Pack 1 is 1.
+
+Trash Pack 2 is a trash-mob in Trash 2.
+Trash Pack 3 is a trash-mob in Trash 3.
+Trash Pack 4 is a trash-mob in Trash 4.
+Trash Pack 5 is a trash-mob in Trash 5.
+Trash Pack 6 is a trash-mob in Trash 6.
+Trash Pack 7 is a trash-mob in Trash 7.
+Trash Pack 8 is a trash-mob in Trash 8.
+Trash Pack 9 is a trash-mob in Trash 9.
+Trash Pack 10 is a trash-mob in Trash 10.
+Trash Pack 11 is a trash-mob in Trash 11.
+Trash Pack 12 is a trash-mob in Trash 12.
