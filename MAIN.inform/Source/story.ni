@@ -139,3 +139,47 @@ Trash Pack 9 is a trash-mob in Trash 9.
 Trash Pack 10 is a trash-mob in Trash 10.
 Trash Pack 11 is a trash-mob in Trash 11.
 Trash Pack 12 is a trash-mob in Trash 12.
+
+[========================
+  DEATH + RELEASE SPIRIT
+========================]
+
+Dying is an action applying to nothing.
+Understand "die" as dying.
+
+Carry out dying:
+	if the player is dead:
+		say "You are already dead.";
+	otherwise:
+		now the player is dead;
+		move the player to the Open World Graveyard;
+		say "You died. Type [bold type]release spirit[roman type].";
+
+Releasing spirit is an action applying to nothing.
+Understand "release spirit" or "release" as releasing spirit.
+
+Check releasing spirit:
+	if the player is alive:
+		say "You are not dead." instead.
+
+Carry out releasing spirit:
+	now the player is alive;
+	move the player to the ICC Entrance;
+	say "You return to Icecrown Citadel. Status: [raid-status].";
+
+[========================
+  BLOCK ACTIONS WHILE DEAD
+========================]
+
+Before doing something when the player is dead:
+	if the current action is releasing spirit:
+		continue the action;
+	if the current action is looking:
+		continue the action;
+	say "You are dead. Only [bold type]release spirit[roman type] works now." instead.
+
+[========================
+  TEST
+========================]
+
+Test me with "look / n / look / die / look / release / look".
