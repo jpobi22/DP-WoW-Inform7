@@ -149,43 +149,74 @@ Trash Pack 12 is a trash-mob in Trash 12.
   LOOT (NO TABLES) - SAFE VERSION
 ========================]
 
-To say random-loot-for (B - a raid-boss):
+To decide what text is loot-choice-for (B - a raid-boss):
 	if B is Lord Marrowgar:
 		let R be a random number from 1 to 3;
 		if R is 1:
-			say "Marrowgar's Scratching Choker";
+			decide on "Marrowgar's Scratching Choker";
 		otherwise if R is 2:
-			say "Shawl of Nerubian Silk";
+			decide on "Shawl of Nerubian Silk";
 		otherwise:
-			say "Coldwraith Bracers";
+			decide on "Coldwraith Bracers";
 	otherwise if B is Lady Deathwhisper:
 		let R be a random number from 1 to 3;
 		if R is 1:
-			say "Deathspeaker Zealot's Helm";
+			decide on "Deathspeaker Zealot's Helm";
 		otherwise if R is 2:
-			say "Chestguard of the Frigid Noose";
+			decide on "Chestguard of the Frigid Noose";
 		otherwise:
-			say "Ghoul Commander's Cuirass";
+			decide on "Ghoul Commander's Cuirass";
 	otherwise if B is Gunship Battle:
 		let R be a random number from 1 to 3;
 		if R is 1:
-			say "Ice-Reinforced Vrykul Helm";
+			decide on "Ice-Reinforced Vrykul Helm";
 		otherwise if R is 2:
-			say "Pauldrons of Lost Hope";
+			decide on "Pauldrons of Lost Hope";
 		otherwise:
-			say "Saronite Gargoyle Cloak";
+			decide on "Saronite Gargoyle Cloak";
 	otherwise if B is Deathbringer Saurfang:
 		let R be a random number from 1 to 3;
 		if R is 1:
-			say "Thaumaturge's Crackling Cowl";
+			decide on "Thaumaturge's Crackling Cowl";
 		otherwise if R is 2:
-			say "Soulcleave Pendant";
+			decide on "Soulcleave Pendant";
 		otherwise:
-			say "Ramaladni's Blade of Culling";
+			decide on "Ramaladni's Blade of Culling";
 	otherwise:
-		say "some frost-covered loot".
+		decide on "some frost-covered loot".
+
+To say random-loot-for (B - a raid-boss):
+	say "[loot-choice-for B]".
 
 
+[========================
+  LOOT DROP OBJECT + COMMAND
+========================]
+
+The dropped loot is a thing.
+The dropped loot is portable.
+The dropped loot is nowhere.
+The description of the dropped loot is "A freshly dropped raid item. Type [bold type]loot item[roman type] to pick it up.".
+
+Looting is an action applying to nothing.
+Understand "loot item" or "loot" as looting.
+
+Carry out looting:
+	if the dropped loot is in the location:
+		try taking the dropped loot;
+	otherwise:
+		say "There's no loot to take.".
+[========================
+  LOOK: CORPSES / DEFEATED BOSSES
+========================]
+
+After looking when in a trash room:
+	if the current trash is dead-trash:
+		say "[paragraph break]The dead [current trash] lies here. The trash pack is cleared.".
+
+After looking when in a boss room:
+	if the current boss is defeated:
+		say "[paragraph break][The current boss] lies defeated on the cold stone.".
 
 [========================
   DURABILITY / REPAIR
@@ -404,7 +435,12 @@ Carry out DPSing:
 	now Marrowgar-phase is 0;
 	now Marrowgar-window is 0;
 	say "[paragraph break]You burst the [bold type]bone tombs[roman type] with heavy DPS!";
-	say "[bold type]Lord Marrowgar is defeated![roman type] Loot drops: [random-loot-for Lord Marrowgar].";
+	let L be loot-choice-for Lord Marrowgar;
+now the printed name of the dropped loot is L;
+move the dropped loot to the location;
+say "[bold type]Lord Marrowgar is defeated![roman type] Loot drops: [printed name of the dropped loot].";
+say "Type [bold type]loot item[roman type] to pick it up.";
+
 
 [========================
   COMBAT LOOP (NO if: BLOCKS)
@@ -435,7 +471,11 @@ Every turn when yourself is in-combat and in a boss room and the current boss is
 	if the boss-fight-turns is 3:
 		now the current boss is defeated;
 		now yourself is out-of-combat;
-		say "[paragraph break][bold type]Boss defeated![roman type] Loot drops: [random-loot-for the current boss].";
+		let L be loot-choice-for the current boss;
+		now the printed name of the dropped loot is L;
+		move the dropped loot to the location;
+		say "[paragraph break][bold type]Boss defeated![roman type] Loot drops: [printed name of the dropped loot].";
+		say "Type [bold type]loot item[roman type] to pick it up.";
 		now the boss-fight-turns is 0;
 
 [Marrowgar loop]
