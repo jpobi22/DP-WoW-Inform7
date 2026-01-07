@@ -190,22 +190,53 @@ To say random-loot-for (B - a raid-boss):
 
 
 [========================
-  LOOT DROP OBJECT + COMMAND
+  LOOT ITEMS (MULTI) + COMMAND
 ========================]
 
-The dropped loot is a thing.
-The dropped loot is portable.
-The dropped loot is nowhere.
-The description of the dropped loot is "A freshly dropped raid item. Type [bold type]loot item[roman type] to pick it up.".
+A loot-item is a kind of thing.
+A loot-item is portable.
+The description of a loot-item is "A freshly dropped raid item.".
+
+Loot Token 1 is a loot-item. Loot Token 2 is a loot-item. Loot Token 3 is a loot-item. Loot Token 4 is a loot-item. Loot Token 5 is a loot-item.
+Loot Token 6 is a loot-item. Loot Token 7 is a loot-item. Loot Token 8 is a loot-item. Loot Token 9 is a loot-item. Loot Token 10 is a loot-item.
+Loot Token 11 is a loot-item. Loot Token 12 is a loot-item. Loot Token 13 is a loot-item. Loot Token 14 is a loot-item. Loot Token 15 is a loot-item.
+Loot Token 16 is a loot-item. Loot Token 17 is a loot-item. Loot Token 18 is a loot-item. Loot Token 19 is a loot-item. Loot Token 20 is a loot-item.
+Loot Token 21 is a loot-item. Loot Token 22 is a loot-item. Loot Token 23 is a loot-item. Loot Token 24 is a loot-item. Loot Token 25 is a loot-item.
+Loot Token 26 is a loot-item. Loot Token 27 is a loot-item. Loot Token 28 is a loot-item. Loot Token 29 is a loot-item. Loot Token 30 is a loot-item.
+Loot Token 31 is a loot-item. Loot Token 32 is a loot-item. Loot Token 33 is a loot-item. Loot Token 34 is a loot-item. Loot Token 35 is a loot-item.
+Loot Token 36 is a loot-item. Loot Token 37 is a loot-item. Loot Token 38 is a loot-item. Loot Token 39 is a loot-item. Loot Token 40 is a loot-item.
+Loot Token 41 is a loot-item. Loot Token 42 is a loot-item. Loot Token 43 is a loot-item. Loot Token 44 is a loot-item. Loot Token 45 is a loot-item.
+Loot Token 46 is a loot-item. Loot Token 47 is a loot-item. Loot Token 48 is a loot-item. Loot Token 49 is a loot-item. Loot Token 50 is a loot-item.
+
+The Loot Token 1 is nowhere. The Loot Token 2 is nowhere. The Loot Token 3 is nowhere. The Loot Token 4 is nowhere. The Loot Token 5 is nowhere.
+The Loot Token 6 is nowhere. The Loot Token 7 is nowhere. The Loot Token 8 is nowhere. The Loot Token 9 is nowhere. The Loot Token 10 is nowhere.
+The Loot Token 11 is nowhere. The Loot Token 12 is nowhere. The Loot Token 13 is nowhere. The Loot Token 14 is nowhere. The Loot Token 15 is nowhere.
+The Loot Token 16 is nowhere. The Loot Token 17 is nowhere. The Loot Token 18 is nowhere. The Loot Token 19 is nowhere. The Loot Token 20 is nowhere.
+The Loot Token 21 is nowhere. The Loot Token 22 is nowhere. The Loot Token 23 is nowhere. The Loot Token 24 is nowhere. The Loot Token 25 is nowhere.
+The Loot Token 26 is nowhere. The Loot Token 27 is nowhere. The Loot Token 28 is nowhere. The Loot Token 29 is nowhere. The Loot Token 30 is nowhere.
+The Loot Token 31 is nowhere. The Loot Token 32 is nowhere. The Loot Token 33 is nowhere. The Loot Token 34 is nowhere. The Loot Token 35 is nowhere.
+The Loot Token 36 is nowhere. The Loot Token 37 is nowhere. The Loot Token 38 is nowhere. The Loot Token 39 is nowhere. The Loot Token 40 is nowhere.
+The Loot Token 41 is nowhere. The Loot Token 42 is nowhere. The Loot Token 43 is nowhere. The Loot Token 44 is nowhere. The Loot Token 45 is nowhere.
+The Loot Token 46 is nowhere. The Loot Token 47 is nowhere. The Loot Token 48 is nowhere. The Loot Token 49 is nowhere. The Loot Token 50 is nowhere.
+
+To drop-loot-named (T - text):
+	let X be a random loot-item which is nowhere;
+	if X is nothing:
+		say "[paragraph break](No free loot tokens left.)";
+	otherwise:
+		now the printed name of X is T;
+		move X to the location.
 
 Looting is an action applying to nothing.
 Understand "loot item" or "loot" as looting.
 
 Carry out looting:
-	if the dropped loot is in the location:
-		try taking the dropped loot;
+	if a loot-item is in the location:
+		repeat with X running through loot-items in the location:
+			try taking X;
 	otherwise:
 		say "There's no loot to take.".
+
 [========================
   LOOK: CORPSES / DEFEATED BOSSES
 ========================]
@@ -217,6 +248,13 @@ After looking when in a trash room:
 After looking when in a boss room:
 	if the current boss is defeated:
 		say "[paragraph break][The current boss] lies defeated on the cold stone.".
+
+After looking:
+	if a loot-item is in the location:
+		say "[paragraph break]Loot on the ground:[line break]";
+		repeat with X running through loot-items in the location:
+			say " - [printed name of X][line break]".
+
 
 [========================
   DURABILITY / REPAIR
@@ -400,6 +438,23 @@ To hard-kill-player:
 	move the player to the Open World Graveyard;
 	say "[paragraph break][bold type]You died.[roman type] Type [bold type]release spirit[roman type].";
 
+[Hard fail: if the window expired, you die BEFORE any command (even dodge/dps).]
+Before doing something when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar:
+	if Marrowgar-window is 0:
+		if Marrowgar-phase is 1:
+			say "[paragraph break]Too late! Bone Storm already hits you.";
+			hard-kill-player;
+			now yourself is out-of-combat;
+			now Marrowgar-phase is 0;
+			stop the action;
+		if Marrowgar-phase is 2 and the bone tomb is intact:
+			say "[paragraph break]Too late! The Bone Graveyard tombs weren't destroyed in time.";
+			hard-kill-player;
+			now yourself is out-of-combat;
+			now Marrowgar-phase is 0;
+			stop the action;
+
+
 Dodging is an action applying to nothing.
 Understand "dodge" as dodging.
 
@@ -412,11 +467,11 @@ Check dodging:
 
 Carry out dodging:
 	now Marrowgar-phase is 2;
-	now Marrowgar-window is 1;
+	now Marrowgar-window is 2;
 	now the bone tomb is intact;
 	say "[paragraph break]You [bold type]DODGE[roman type] Bone Storm just in time!";
 	say "Marrowgar follows up with [bold type]Bone Graveyard[roman type] — bone tombs trap players!";
-	say "You have [bold type]10 seconds[roman type] to type [bold type]DPS[roman type].";
+	say "You have [bold type]5 seconds[roman type] to type [bold type]DPS[roman type].";
 
 DPSing is an action applying to nothing.
 Understand "dps" as DPSing.
@@ -436,10 +491,10 @@ Carry out DPSing:
 	now Marrowgar-window is 0;
 	say "[paragraph break]You burst the [bold type]bone tombs[roman type] with heavy DPS!";
 	let L be loot-choice-for Lord Marrowgar;
-now the printed name of the dropped loot is L;
-move the dropped loot to the location;
-say "[bold type]Lord Marrowgar is defeated![roman type] Loot drops: [printed name of the dropped loot].";
-say "Type [bold type]loot item[roman type] to pick it up.";
+	drop-loot-named L;
+	say "[bold type]Lord Marrowgar is defeated![roman type] Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
 
 
 [========================
@@ -472,18 +527,17 @@ Every turn when yourself is in-combat and in a boss room and the current boss is
 		now the current boss is defeated;
 		now yourself is out-of-combat;
 		let L be loot-choice-for the current boss;
-		now the printed name of the dropped loot is L;
-		move the dropped loot to the location;
-		say "[paragraph break][bold type]Boss defeated![roman type] Loot drops: [printed name of the dropped loot].";
+		drop-loot-named L;
+		say "[paragraph break][bold type]Boss defeated![roman type] Loot drops: [L].";
 		say "Type [bold type]loot item[roman type] to pick it up.";
 		now the boss-fight-turns is 0;
 
 [Marrowgar loop]
 Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 0:
 	now Marrowgar-phase is 1;
-	now Marrowgar-window is 1;
+	now Marrowgar-window is 2;
 	say "[paragraph break][bold type]Lord Marrowgar begins Bone Storm![roman type]";
-	say "You have [bold type]10 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
+	say "You have [bold type]5 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
 
 Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-window > 0:
 	decrease Marrowgar-window by 1;
