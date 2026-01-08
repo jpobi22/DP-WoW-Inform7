@@ -20,7 +20,7 @@ When play begins:
 ========================]
 
 The Open World Graveyard is a room.
-"The cold winds howl. You are at the graveyard outside the raid.
+"You are at the graveyard outside the raid because you are DEAD. The cold winds howls. Other spirits are whispering to you. Do not listen to them. Go to the light.
 You can only return by typing [bold type]release spirit[roman type]."
 
 [========================
@@ -28,7 +28,7 @@ You can only return by typing [bold type]release spirit[roman type]."
 ========================]
 
 The ICC Entrance is a room.
-"You stand at the gates of Icecrown Citadel."
+"You are now at the ICC entrance inside the citadel. Next to you is a repair man and infront of you is the next room with enemy units."
 
 The player is in the ICC Entrance.
 
@@ -182,6 +182,70 @@ To decide what text is loot-choice-for (B - a raid-boss):
 			decide on "Soulcleave Pendant";
 		otherwise:
 			decide on "Ramaladni's Blade of Culling";
+	otherwise if B is Festergut:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Precious's Putrid Collar";
+		otherwise if R is 2:
+			decide on "Cloak of Many Skins";
+		otherwise:
+			decide on "Wrists of Septic Shock";
+	otherwise if B is Rotface:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Taldron's Short-Sighted Helm";
+		otherwise if R is 2:
+			decide on "Choker of Filthy Diamonds";
+		otherwise:
+			decide on "Chestguard of the Failed Experiment";
+	otherwise if B is Professor Putricide:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Discarded Bag of Entrails";
+		otherwise if R is 2:
+			decide on "Infected Choker";
+		otherwise:
+			decide on "The Facelifter";
+	otherwise if B is Blood Prince Council:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Spaulders of the Blood Princes";
+		otherwise if R is 2:
+			decide on "Heartsick Mender's Cape";
+		otherwise:
+			decide on "Soulbreaker";
+	otherwise if B is Blood-Queen Lana'thel:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Cowl of Malefic Repose";
+		otherwise if R is 2:
+			decide on "Seal of the Twilight Queen";
+		otherwise:
+			decide on "Bloodfall";
+	otherwise if B is Valithria Dreamwalker:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Sister Svalna's Spangenhelm";
+		otherwise if R is 2:
+			decide on "ColdWrath Links belt";
+		otherwise:
+			decide on "Lich Wrappings";
+	otherwise if B is Sindragosa:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Rimetooth Pendant";
+		otherwise if R is 2:
+			decide on "Robes of Azure Downfall";
+		otherwise:
+			decide on "Etched Dragonbone Girdle";
+	otherwise if B is The Lich King:
+		let R be a random number from 1 to 3;
+		if R is 1:
+			decide on "Bloodsurge, Kel'Thuzad's Blade of Agony";
+		otherwise if R is 2:
+			decide on "Glorenzelg, High-Blade of the Silver Hand";
+		otherwise:
+			decide on "Oathbinder, Charge of the Ranger-General";
 	otherwise:
 		decide on "some frost-covered loot".
 
@@ -332,21 +396,21 @@ Carry out releasing spirit:
 	increase revive-without-repair count by 1;
 	say "You release your spirit and fly back to Icecrown Citadel. Status: [raid-status].";
 	say "[paragraph break]Your equipment is a bit damaged from dying.";
-
+	
 After releasing spirit when revive-without-repair count is 1:
 	say "You can still die and run back [bold type]2[roman type] more times before your gear becomes useless.";
-
+	
 After releasing spirit when revive-without-repair count is 2:
 	say "Careful: you can only die and run back [bold type]1[roman type] more time before your gear becomes useless.";
-
+	
 After releasing spirit when revive-without-repair count is 3:
 	now gear-broken is true;
 	say "Your gear is now [bold type]basically unusable[roman type]. You [bold type]MUST repair[roman type] before continuing.";
-
+	
 After releasing spirit when revive-without-repair count > 3:
 	now gear-broken is true;
 	say "Your gear is still [bold type]unusable[roman type]. You [bold type]MUST repair[roman type] before continuing.";
-
+	
 After releasing spirit:
 	say "[paragraph break][bold type]Repair now?[roman type] Type [bold type]repair[roman type] (recommended).";
 
@@ -418,6 +482,13 @@ Before going north when in a trash room:
 Before going north when in a boss room:
 	if the current boss is undefeated:
 		say "[The current boss] blocks the way. Type [bold type]fight[roman type] to start the encounter." instead.
+		
+[========================
+  NO LEAVING BOSS FIGHT
+========================]
+
+Before going when yourself is in-combat and in a boss room:
+	say "You can't leave now — the boss fight is in progress!" instead.
 
 [========================
   MARROWGAR MECHANICS (NO if: BLOCKS)
@@ -426,8 +497,8 @@ Before going north when in a boss room:
 Marrowgar-phase is a number that varies.
 Marrowgar-phase is 0. [0=inactive, 1=needs dodge, 2=needs dps]
 
-Marrowgar-window is a number that varies.
-Marrowgar-window is 0. [turn window]
+Marrowgar-deadline is a number that varies.
+Marrowgar-deadline is 0. [turn number deadline]
 
 A bone tomb is a thing.
 The bone tomb can be intact or shattered.
@@ -438,21 +509,21 @@ To hard-kill-player:
 	move the player to the Open World Graveyard;
 	say "[paragraph break][bold type]You died.[roman type] Type [bold type]release spirit[roman type].";
 
-[Hard fail: if the window expired, you die BEFORE any command (even dodge/dps).]
+[Hard fail: if the deadline passed, you die BEFORE any command (even dodge/dps).]
 Before doing something when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar:
-	if Marrowgar-window is 0:
-		if Marrowgar-phase is 1:
-			say "[paragraph break]Too late! Bone Storm already hits you.";
-			hard-kill-player;
-			now yourself is out-of-combat;
-			now Marrowgar-phase is 0;
-			stop the action;
-		if Marrowgar-phase is 2 and the bone tomb is intact:
-			say "[paragraph break]Too late! The Bone Graveyard tombs weren't destroyed in time.";
-			hard-kill-player;
-			now yourself is out-of-combat;
-			now Marrowgar-phase is 0;
-			stop the action;
+	if Marrowgar-phase is 1 and the turn count > Marrowgar-deadline:
+		say "[paragraph break]Too late! Bone Storm already hits you.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Marrowgar-phase is 0;
+		stop the action;
+	if Marrowgar-phase is 2 and the bone tomb is intact and the turn count > Marrowgar-deadline:
+		say "[paragraph break]Too late! The Bone Graveyard tombs weren't destroyed in time.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Marrowgar-phase is 0;
+		stop the action;
+
 
 
 Dodging is an action applying to nothing.
@@ -467,11 +538,13 @@ Check dodging:
 
 Carry out dodging:
 	now Marrowgar-phase is 2;
-	now Marrowgar-window is 2;
+	now Marrowgar-deadline is the turn count;
+	increase Marrowgar-deadline by 1;
 	now the bone tomb is intact;
 	say "[paragraph break]You [bold type]DODGE[roman type] Bone Storm just in time!";
 	say "Marrowgar follows up with [bold type]Bone Graveyard[roman type] — bone tombs trap players!";
 	say "You have [bold type]5 seconds[roman type] to type [bold type]DPS[roman type].";
+
 
 DPSing is an action applying to nothing.
 Understand "dps" as DPSing.
@@ -488,7 +561,6 @@ Carry out DPSing:
 	now Lord Marrowgar is defeated;
 	now yourself is out-of-combat;
 	now Marrowgar-phase is 0;
-	now Marrowgar-window is 0;
 	say "[paragraph break]You burst the [bold type]bone tombs[roman type] with heavy DPS!";
 	let L be loot-choice-for Lord Marrowgar;
 	drop-loot-named L;
@@ -505,7 +577,7 @@ Every turn when yourself is in-combat and in a trash room:
 	say "[line break][italic type]Trash fight:[roman type] the raid cleaves through undead...";
 	now the current trash is dead-trash;
 	now yourself is out-of-combat;
-	say "Trash cleared. You can move on.";
+	say "You have successfully cleared the trash mobs. You can move on.";
 
 [Generic boss loop for bosses except Marrowgar]
 Every turn when yourself is in-combat and in a boss room and the current boss is not Lord Marrowgar:
@@ -535,24 +607,11 @@ Every turn when yourself is in-combat and in a boss room and the current boss is
 [Marrowgar loop]
 Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 0:
 	now Marrowgar-phase is 1;
-	now Marrowgar-window is 2;
+	now Marrowgar-deadline is the turn count;
+	increase Marrowgar-deadline by 1;
 	say "[paragraph break][bold type]Lord Marrowgar begins Bone Storm![roman type]";
 	say "You have [bold type]5 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
 
-Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-window > 0:
-	decrease Marrowgar-window by 1;
-
-Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 1 and Marrowgar-window is 0:
-	say "[paragraph break]You fail to dodge Bone Storm. It's a massacre.";
-	hard-kill-player;
-	now yourself is out-of-combat;
-	now Marrowgar-phase is 0;
-
-Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 2 and Marrowgar-window is 0 and the bone tomb is intact:
-	say "[paragraph break]You fail to break the Bone Graveyard tombs in time. The raid collapses.";
-	hard-kill-player;
-	now yourself is out-of-combat;
-	now Marrowgar-phase is 0;
 
 [========================
   CONTEXT COMMAND OPTIONS (AFTER EACH TURN)
