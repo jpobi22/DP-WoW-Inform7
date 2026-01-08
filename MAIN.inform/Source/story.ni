@@ -823,6 +823,33 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Council-phase is 0;
 		stop the action;
 
+[--- Hard fail: Blood-Queen deadlines ---]
+Before doing something when yourself is in-combat and the location is Boss Room 9 and the current boss is Blood-Queen Lana'thel:
+	if Lana-phase is 1 and the turn count > Lana-deadline:
+		say "[paragraph break]Too late! The fire spreads under your feet and you burn down.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Lana-phase is 0;
+		stop the action;
+	if Lana-phase is 2 and the turn count > Lana-deadline:
+		say "[paragraph break]Too late! The bite curse consumes you — you collapse.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Lana-phase is 0;
+		stop the action;
+	if Lana-phase is 3 and the turn count > Lana-deadline:
+		say "[paragraph break]Too late! She rains blood from above and the raid wipes.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Lana-phase is 0;
+		stop the action;
+	if Lana-phase is 4 and the turn count > Lana-deadline:
+		say "[paragraph break]Too late! She stabilizes and executes the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Lana-phase is 0;
+		stop the action;
+		
 
 
 
@@ -1357,12 +1384,7 @@ Carry out finishing Rotface:
 
 Putricide-phase is a number that varies.
 Putricide-phase is 0.
-[0=inactive,
- 1=needs move (vial),
- 2=needs dps green ooze,
- 3=needs run from red ooze,
- 4=needs defensive (enrage),
- 5=needs dps boss]
+
 
 Putricide-deadline is a number that varies.
 Putricide-deadline is 0.
@@ -1558,9 +1580,95 @@ Carry out finishing Council:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
+[========================
+  BLOOD-QUEEN LANA'THEL MECHANICS (TURN-BASED)
+========================]
 
+Lana-phase is a number that varies.
+Lana-phase is 0.
+[0=inactive, 1=needs move from fire, 2=needs bite, 3=needs defensive, 4=needs dps boss]
 
+Lana-deadline is a number that varies.
+Lana-deadline is 0.
 
+[Phase 1: Move from fire]
+Moving from fire is an action applying to nothing.
+Understand "move from fire" or "move away from fire" or "fire" as moving from fire.
+
+Check moving from fire:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 9, say "No fire to move from here." instead;
+	if the current boss is not Blood-Queen Lana'thel, say "No need to do that right now." instead;
+	if Lana-phase is not 1, say "Now is not the time to move from fire." instead.
+
+Carry out moving from fire:
+	now Lana-phase is 2;
+	now Lana-deadline is the turn count;
+	increase Lana-deadline by 1;
+	say "[paragraph break]You step out of the flames just in time!";
+	say "She bites you with a blood curse!";
+	say "To survive, bite the antidote — type [bold type]bite[roman type].";
+
+[Phase 2: Bite antidote]
+Biting is an action applying to nothing.
+Understand "bite" as biting.
+
+Check biting:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 9, say "No need to bite anything here." instead;
+	if the current boss is not Blood-Queen Lana'thel, say "No need to bite right now." instead;
+	if Lana-phase is not 2, say "Now is not the time to bite." instead.
+
+Carry out biting:
+	now Lana-phase is 3;
+	now Lana-deadline is the turn count;
+	increase Lana-deadline by 1;
+	say "[paragraph break]You bite the antidote and purge the curse!";
+	say "Blood-Queen Lana'thel flies up and prepares a deadly burst!";
+	say "Survive it — type [bold type]defensive[roman type].";
+
+[Phase 3: Defensive]
+Using Lana defensive is an action applying to nothing.
+Understand "defensive" or "use defensive" as using Lana defensive
+	when the location is Boss Room 9.
+
+Check using Lana defensive:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 9, say "No need for defensives here." instead;
+	if the current boss is not Blood-Queen Lana'thel, say "No need for defensives right now." instead;
+	if Lana-phase is not 3, say "Now is not the time to use a defensive." instead.
+
+Carry out using Lana defensive:
+	now Lana-phase is 4;
+	now Lana-deadline is the turn count;
+	increase Lana-deadline by 1;
+	say "[paragraph break]You use a defensive and survive the aerial burst!";
+	say "She lands back down — finish her!";
+	say "Type [bold type]dps boss[roman type].";
+
+[Phase 4: DPS boss (LK-safe: own action only for Boss Room 9)]
+Finishing Lana is an action applying to nothing.
+Understand "dps boss" or "kill boss" or "kill lana" or "finish boss" as finishing Lana
+	when the location is Boss Room 9.
+
+Check finishing Lana:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the current boss is not Blood-Queen Lana'thel, say "No boss to DPS right now." instead;
+	if Lana-phase is not 4, say "Now is not the time to DPS the boss." instead.
+
+Carry out finishing Lana:
+	now Blood-Queen Lana'thel is defeated;
+	now yourself is out-of-combat;
+	now Lana-phase is 0;
+	say "[paragraph break][bold type]Blood-Queen Lana'thel is defeated![roman type]";
+	let L be loot-choice-for Blood-Queen Lana'thel;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 
@@ -1826,6 +1934,19 @@ Every turn when yourself is in-combat and the location is Boss Room 8 and the cu
 	say "[paragraph break][bold type]Blood Prince Council begins![roman type]";
 	say "You must do damage with [bold type]single target[roman type] abilities only!";
 	say "Type [bold type]single target[roman type] (you have 5 seconds).";
+
+[--- Start loop: Blood-Queen Lana'thel ---]
+Every turn when yourself is in-combat and the location is Boss Room 9 and the current boss is Blood-Queen Lana'thel and Lana-phase is 0:
+	now Lana-phase is 1;
+	now Lana-deadline is the turn count;
+	increase Lana-deadline by 1;
+	say "[paragraph break][bold type]Blood-Queen Lana'thel begins![roman type]";
+	say "She ignites the floor with bloodfire!";
+	say "Move away — type [bold type]move from fire[roman type] (you have 5 seconds).";
+	
+
+
+
 
 
 
