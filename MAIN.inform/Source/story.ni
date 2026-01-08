@@ -524,6 +524,64 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Marrowgar-phase is 0;
 		stop the action;
 
+[Hard fail: Deathwhisper deadlines (you can type other commands, but if you miss the step you die).]
+Before doing something when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper:
+	if Deathwhisper-phase is 1 and the turn count > Deathwhisper-deadline:
+		say "[paragraph break]Too late! The adds overwhelm the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Deathwhisper-phase is 0;
+		stop the action;
+	if Deathwhisper-phase is 2 and the turn count > Deathwhisper-deadline:
+		say "[paragraph break]Too late! Her shield never drops and the raid wipes.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Deathwhisper-phase is 0;
+		stop the action;
+	if Deathwhisper-phase is 3 and the turn count > Deathwhisper-deadline:
+		say "[paragraph break]Too late! She repositions and your chance is gone. The raid collapses.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Deathwhisper-phase is 0;
+		stop the action;
+		
+[Hard fail: Gunship deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 3 and the current boss is Gunship Battle:
+	if Gunship-phase is 1 and the turn count > Gunship-deadline:
+		say "[paragraph break]Too late! Without the rocket jump, the raid loses the ship.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Gunship-phase is 0;
+		now rocket-equipped is false;
+		stop the action;
+	if Gunship-phase is 2 and the turn count > Gunship-deadline:
+		say "[paragraph break]Too late! You fail to jump and the enemy overwhelms you.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Gunship-phase is 0;
+		now rocket-equipped is false;
+		stop the action;
+	if Gunship-phase is 3 and the turn count > Gunship-deadline:
+		say "[paragraph break]Too late! The mage freezes everything and the raid wipes.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Gunship-phase is 0;
+		now rocket-equipped is false;
+		stop the action;
+	if Gunship-phase is 4 and the turn count > Gunship-deadline:
+		say "[paragraph break]Too late! You're stranded on the enemy ship and get executed.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Gunship-phase is 0;
+		now rocket-equipped is false;
+		stop the action;
+	if Gunship-phase is 5 and the turn count > Gunship-deadline:
+		say "[paragraph break]Too late! The adds overrun your deck. Raid wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Gunship-phase is 0;
+		now rocket-equipped is false;
+		stop the action;
 
 
 Dodging is an action applying to nothing.
@@ -568,6 +626,180 @@ Carry out DPSing:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
+[========================
+  DEATHWHISPER MECHANICS (TURN-BASED)
+========================]
+
+Deathwhisper-phase is a number that varies.
+Deathwhisper-phase is 0. [0=inactive, 1=needs dps adds, 2=needs dps boss(shield), 3=needs finish boss]
+
+Deathwhisper-deadline is a number that varies.
+Deathwhisper-deadline is 0. [turn deadline]
+
+DPSing adds is an action applying to nothing.
+Understand "dps adds" as DPSing adds.
+
+Check DPSing adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not the Boss Room 2, say "No adds to DPS here." instead;
+	if the current boss is not Lady Deathwhisper, say "No adds to DPS right now." instead;
+	if Deathwhisper-phase is not 1, say "Now is not the time to DPS adds." instead.
+
+Carry out DPSing adds:
+	now Deathwhisper-phase is 2;
+	now Deathwhisper-deadline is the turn count;
+	increase Deathwhisper-deadline by 1;
+	say "[paragraph break]You obliterate the adds! Now burn the boss shield!";
+	say "Type [bold type]dps boss[roman type].";
+
+DPSing boss is an action applying to nothing.
+Understand "dps boss" as DPSing boss.
+
+Check DPSing boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not the Boss Room 2, say "No boss to DPS here." instead;
+	if the current boss is not Lady Deathwhisper, say "No boss to DPS right now." instead;
+	if Deathwhisper-phase is not 2, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing boss:
+	now Deathwhisper-phase is 3;
+	now Deathwhisper-deadline is the turn count;
+	increase Deathwhisper-deadline by 1;
+	say "[paragraph break]Her shield shatters! Lady Deathwhisper moves to the center!";
+	say "Type [bold type]finish boss[roman type] to follow and kill her.";
+
+Finishing boss is an action applying to nothing.
+Understand "finish boss" as finishing boss.
+
+Check finishing boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not the Boss Room 2, say "No boss to finish here." instead;
+	if the current boss is not Lady Deathwhisper, say "No boss to finish right now." instead;
+	if Deathwhisper-phase is not 3, say "Now is not the time to finish the boss." instead.
+
+Carry out finishing boss:
+	now Lady Deathwhisper is defeated;
+	now yourself is out-of-combat;
+	now Deathwhisper-phase is 0;
+	say "[paragraph break][bold type]Lady Deathwhisper is defeated![roman type]";
+	let L be loot-choice-for Lady Deathwhisper;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+	
+
+[========================
+  GUNSHIP BATTLE MECHANICS (TURN-BASED)
+========================]
+
+Gunship-phase is a number that varies.
+Gunship-phase is 0.
+[0=inactive, 1=needs equip rocket, 2=needs jump, 3=needs dps mage, 4=needs jump back, 5=needs dps adds]
+
+Gunship-deadline is a number that varies.
+Gunship-deadline is 0.
+
+The rocket-equipped is a truth state that varies.
+The rocket-equipped is false.
+
+Equipping rocket is an action applying to nothing.
+Understand "equip rocket" as equipping rocket.
+
+Check equipping rocket:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You can only do that during the fight." instead;
+	if the location is not the Boss Room 3, say "No rocket to equip here." instead;
+	if the current boss is not Gunship Battle, say "No need to equip a rocket now." instead;
+	if Gunship-phase is not 1, say "Now is not the time to equip the rocket." instead.
+
+Carry out equipping rocket:
+	now rocket-equipped is true;
+	now Gunship-phase is 2;
+	now Gunship-deadline is the turn count;
+	increase Gunship-deadline by 1;
+	say "[paragraph break]You equip the rocket pack. Jump to the enemy ship!";
+	say "Type [bold type]board ship[roman type].";
+
+Boarding the enemy ship is an action applying to nothing.
+Understand "board" or "board ship" or "jump ship" or "rocket jump" as boarding the enemy ship.
+
+
+Check boarding the enemy ship:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not the Boss Room 3, say "No ship to jump to here." instead;
+	if the current boss is not Gunship Battle, say "No need to jump right now." instead;
+	if Gunship-phase is not 2, say "Now is not the time to jump." instead;
+	if rocket-equipped is false, say "You need to [bold type]equip rocket[roman type] first!" instead.
+
+Carry out boarding the enemy ship:
+	now Gunship-phase is 3;
+	now Gunship-deadline is the turn count;
+	increase Gunship-deadline by 1;
+	say "[paragraph break]You rocket-jump onto the enemy ship!";
+	say "A mage is freezing your cannons. Kill him!";
+	say "Type [bold type]dps mage[roman type].";
+
+
+DPSing mage is an action applying to nothing.
+Understand "dps mage" as DPSing mage.
+
+Check DPSing mage:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not the Boss Room 3, say "No mage to DPS here." instead;
+	if the current boss is not Gunship Battle, say "No mage to DPS right now." instead;
+	if Gunship-phase is not 3, say "Now is not the time to DPS the mage." instead.
+
+Carry out DPSing mage:
+	now Gunship-phase is 4;
+	now Gunship-deadline is the turn count;
+	increase Gunship-deadline by 1;
+	say "[paragraph break]Mage down! Cannons unfreeze!";
+	say "Now return to your ship.";
+	say "Type [bold type]jump back[roman type].";
+
+Jumping back is an action applying to nothing.
+Understand "jump back" as jumping back.
+
+Check jumping back:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not the Boss Room 3, say "No need to jump back here." instead;
+	if the current boss is not Gunship Battle, say "No need to jump back right now." instead;
+	if Gunship-phase is not 4, say "Now is not the time to jump back." instead.
+
+Carry out jumping back:
+	now Gunship-phase is 5;
+	now Gunship-deadline is the turn count;
+	increase Gunship-deadline by 1;
+	say "[paragraph break]You jump back to your ship!";
+	say "New enemy adds board your deck!";
+	say "Type [bold type]dps adds[roman type].";
+
+DPSing gunship adds is an action applying to nothing.
+Understand "dps adds" as DPSing gunship adds when the location is Boss Room 3.
+
+Check DPSing gunship adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not the Boss Room 3, say "No adds to DPS here." instead;
+	if the current boss is not Gunship Battle, say "No adds to DPS right now." instead;
+	if Gunship-phase is not 5, say "Now is not the time to DPS adds." instead.
+
+Carry out DPSing gunship adds:
+	now Gunship Battle is defeated;
+	now yourself is out-of-combat;
+	now Gunship-phase is 0;
+	now rocket-equipped is false;
+	say "[paragraph break][bold type]Gunship Battle is defeated![roman type]";
+	let L be loot-choice-for Gunship Battle;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
 
 [========================
   COMBAT LOOP (NO if: BLOCKS)
@@ -579,30 +811,7 @@ Every turn when yourself is in-combat and in a trash room:
 	now yourself is out-of-combat;
 	say "You have successfully cleared the trash mobs. You can move on.";
 
-[Generic boss loop for bosses except Marrowgar]
-Every turn when yourself is in-combat and in a boss room and the current boss is not Lord Marrowgar:
-	say "[line break][italic type]Boss fight:[roman type] [The current boss] presses the raid...";
-	if a random chance of 1 in 2 succeeds:
-		say "[The current boss] uses a raid-wide ability!";
-	if a random chance of 1 in 4 succeeds:
-		say "A random raider fails a mechanic and takes huge damage!";
-	[Placeholder: kill after 3 turns in combat]
-	
 
-[Boss fight turns counter (simple)]
-
-The boss-fight-turns is 0.
-
-Every turn when yourself is in-combat and in a boss room and the current boss is not Lord Marrowgar:
-	increase the boss-fight-turns by 1;
-	if the boss-fight-turns is 3:
-		now the current boss is defeated;
-		now yourself is out-of-combat;
-		let L be loot-choice-for the current boss;
-		drop-loot-named L;
-		say "[paragraph break][bold type]Boss defeated![roman type] Loot drops: [L].";
-		say "Type [bold type]loot item[roman type] to pick it up.";
-		now the boss-fight-turns is 0;
 
 [Marrowgar loop]
 Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 0:
@@ -611,6 +820,24 @@ Every turn when yourself is in-combat and the location is Boss Room 1 and the cu
 	increase Marrowgar-deadline by 1;
 	say "[paragraph break][bold type]Lord Marrowgar begins Bone Storm![roman type]";
 	say "You have [bold type]5 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
+
+[Deathwhisper loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper and Deathwhisper-phase is 0:
+	now Deathwhisper-phase is 1;
+	now Deathwhisper-deadline is the turn count;
+	increase Deathwhisper-deadline by 1;
+	say "[paragraph break][bold type]Lady Deathwhisper summons adds![roman type]";
+	say "Type [bold type]dps adds[roman type] to kill them (you have 5 seconds).";
+
+[Gunship loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 3 and the current boss is Gunship Battle and Gunship-phase is 0:
+	now Gunship-phase is 1;
+	now rocket-equipped is false;
+	now Gunship-deadline is the turn count;
+	increase Gunship-deadline by 1;
+	say "[paragraph break][bold type]Gunship Battle begins![roman type]";
+	say "To board the enemy ship, you must [bold type]equip rocket[roman type].";
+	say "Type [bold type]equip rocket[roman type] (you have 5 seconds).";
 
 
 [========================
