@@ -682,6 +682,149 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now rocket-equipped is false;
 		stop the action;
 
+[Hard fail: Saurfang deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 4 and the current boss is Deathbringer Saurfang:
+	if Saurfang-phase is 1 and the turn count > Saurfang-deadline:
+		say "[paragraph break]Too late! The adds tear through the raid. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Saurfang-phase is 0;
+		stop the action;
+	if Saurfang-phase is 2 and the turn count > Saurfang-deadline:
+		say "[paragraph break]Too late! You don't pop DPS cooldowns and Saurfang enrages. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Saurfang-phase is 0;
+		stop the action;
+	if Saurfang-phase is 3 and the turn count > Saurfang-deadline:
+		say "[paragraph break]Too late! The second wave of adds overwhelms you. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Saurfang-phase is 0;
+		stop the action;
+	if Saurfang-phase is 4 and the turn count > Saurfang-deadline:
+		say "[paragraph break]Too late! You fail to finish him. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Saurfang-phase is 0;
+		stop the action;
+
+[Hard fail: Festergut deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 5 and the current boss is Festergut:
+	if Fester-phase is 1 and the turn count > Fester-deadline:
+		say "[paragraph break]Too late! The ooze melts into the raid and you wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Fester-phase is 0;
+		stop the action;
+	if Fester-phase is 2 and the turn count > Fester-deadline:
+		say "[paragraph break]Too late! You fail to weaken Festergut in time. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Fester-phase is 0;
+		stop the action;
+	if Fester-phase is 3 and the turn count > Fester-deadline:
+		say "[paragraph break]Too late! Ooze Explosion hits you point-blank. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Fester-phase is 0;
+		stop the action;
+	if Fester-phase is 4 and the turn count > Fester-deadline:
+		say "[paragraph break]Too late! You don't finish him and the raid collapses. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Fester-phase is 0;
+		stop the action;
+
+[Hard fail: Rotface deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 6 and the current boss is Rotface:
+	if Rotface-phase is 1 and the turn count > Rotface-deadline:
+		say "[paragraph break]Too late! You fail to stack spores properly and the raid collapses.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Rotface-phase is 0;
+		stop the action;
+	if Rotface-phase is 2 and the turn count > Rotface-deadline:
+		say "[paragraph break]Too late! You fail to weaken Rotface in time. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Rotface-phase is 0;
+		stop the action;
+	if Rotface-phase is 3 and the turn count > Rotface-deadline:
+		say "[paragraph break]Too late! Vile Gas hits you unprotected. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Rotface-phase is 0;
+		stop the action;
+	if Rotface-phase is 4 and the turn count > Rotface-deadline:
+		say "[paragraph break]Too late! You don't finish him and the raid collapses. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Rotface-phase is 0;
+		stop the action;
+
+[Hard fail: Professor Putricide deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 7 and the current boss is Professor Putricide:
+	if Putricide-phase is 1 and the turn count > Putricide-deadline:
+		say "[paragraph break]Too late! The vile vial explodes under your feet. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Putricide-phase is 0;
+		stop the action;
+	if Putricide-phase is 2 and the turn count > Putricide-deadline:
+		say "[paragraph break]Too late! The green ooze reaches the raid. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Putricide-phase is 0;
+		stop the action;
+	if Putricide-phase is 3 and the turn count > Putricide-deadline:
+		say "[paragraph break]Too late! The red ooze catches you. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Putricide-phase is 0;
+		stop the action;
+	if Putricide-phase is 4 and the turn count > Putricide-deadline:
+		say "[paragraph break]Too late! Enrage crushes the raid. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Putricide-phase is 0;
+		stop the action;
+	if Putricide-phase is 5 and the turn count > Putricide-deadline:
+		say "[paragraph break]Too late! You fail to finish Putricide. Wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Putricide-phase is 0;
+		stop the action;
+
+[--- Hard fail: Blood Prince Council deadlines ---]
+Before doing something when yourself is in-combat and the location is Boss Room 8 and the current boss is Blood Prince Council:
+	if Council-phase is 1 and the turn count > Council-deadline:
+		say "[paragraph break]Too late! You waste damage with AoE and the Council overwhelms the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Council-phase is 0;
+		stop the action;
+	if Council-phase is 2 and the turn count > Council-deadline:
+		say "[paragraph break]Too late! The vortex pulls you in and you get shredded.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Council-phase is 0;
+		stop the action;
+	if Council-phase is 3 and the turn count > Council-deadline:
+		say "[paragraph break]Too late! You fail to switch targets and the wrong prince powers up — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Council-phase is 0;
+		stop the action;
+	if Council-phase is 4 and the turn count > Council-deadline:
+		say "[paragraph break]Too late! The Council stabilizes and executes the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Council-phase is 0;
+		stop the action;
+
+
+
 
 
 
@@ -811,7 +954,6 @@ Carry out DPSing adds:
 	say "Type [bold type]dps boss[roman type].";
 
 DPSing boss is an action applying to nothing.
-Understand "smash litch king" as DPSing boss.
 
 Check DPSing boss:
 	if the player is dead, say "You're dead." instead;
@@ -959,6 +1101,468 @@ Carry out DPSing gunship adds:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
+[========================
+  DEATHBRINGER SAURFANG MECHANICS (TURN-BASED)
+========================]
+
+Saurfang-phase is a number that varies.
+Saurfang-phase is 0.
+[0=inactive, 1=needs dps adds, 2=needs use dps CD, 3=needs kill adds, 4=needs dps boss]
+
+Saurfang-deadline is a number that varies.
+Saurfang-deadline is 0.
+
+[Phase 1: DPS initial adds]
+DPSing saurfang adds is an action applying to nothing.
+Understand "dps adds" as DPSing saurfang adds when the location is Boss Room 4.
+
+Check DPSing saurfang adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 4, say "No adds to DPS here." instead;
+	if the current boss is not Deathbringer Saurfang, say "No adds to DPS right now." instead;
+	if Saurfang-phase is not 1, say "Now is not the time to DPS adds." instead.
+
+Carry out DPSing saurfang adds:
+	now Saurfang-phase is 2;
+	now Saurfang-deadline is the turn count;
+	increase Saurfang-deadline by 1;
+	say "[paragraph break]You destroy the adds! Saurfang grows stronger!";
+	say "Pop DPS cooldowns — type [bold type]use dps CD[roman type].";
+
+[Phase 2: Use DPS cooldowns]
+Using DPS cooldowns is an action applying to nothing.
+Understand "use dps cd" or "use dps cooldowns" or "dps cd" as using DPS cooldowns.
+
+Check using DPS cooldowns:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 4, say "No need to do that here." instead;
+	if the current boss is not Deathbringer Saurfang, say "No need for DPS cooldowns right now." instead;
+	if Saurfang-phase is not 2, say "Now is not the time to use DPS cooldowns." instead.
+
+Carry out using DPS cooldowns:
+	now Saurfang-phase is 3;
+	now Saurfang-deadline is the turn count;
+	increase Saurfang-deadline by 1;
+	say "[paragraph break]You unleash DPS cooldowns! Saurfang staggers!";
+	say "But more adds spawn — kill them now: [bold type]kill adds[roman type].";
+
+[Phase 3: Kill second wave adds]
+Killing saurfang adds is an action applying to nothing.
+Understand "kill adds" as killing saurfang adds.
+
+Check killing saurfang adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 4, say "No adds to kill here." instead;
+	if the current boss is not Deathbringer Saurfang, say "No adds to kill right now." instead;
+	if Saurfang-phase is not 3, say "Now is not the time to kill adds." instead.
+
+Carry out killing saurfang adds:
+	now Saurfang-phase is 4;
+	now Saurfang-deadline is the turn count;
+	increase Saurfang-deadline by 1;
+	say "[paragraph break]Adds are dead! Saurfang is at the brink of death!";
+	say "Finish him — type [bold type]dps boss[roman type].";
+
+[Phase 4: Finish boss]
+DPSing saurfang boss is an action applying to nothing.
+Understand "dps boss" as DPSing saurfang boss when the location is Boss Room 4.
+
+Check DPSing saurfang boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 4, say "No boss to DPS here." instead;
+	if the current boss is not Deathbringer Saurfang, say "No boss to DPS right now." instead;
+	if Saurfang-phase is not 4, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing saurfang boss:
+	now Deathbringer Saurfang is defeated;
+	now yourself is out-of-combat;
+	now Saurfang-phase is 0;
+	say "[paragraph break][bold type]Deathbringer Saurfang is defeated![roman type]";
+	let L be loot-choice-for Deathbringer Saurfang;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+
+[========================
+  FESTERGUT MECHANICS (TURN-BASED)
+========================]
+
+Fester-phase is a number that varies.
+Fester-phase is 0.
+[0=inactive, 1=needs move from raid (ooze on player), 2=needs dps boss (weaken), 3=needs move from boss (ooze explosion), 4=needs dps boss (kill)]
+
+Fester-deadline is a number that varies.
+Fester-deadline is 0.
+
+[Phase 1: Move ooze away from raid]
+Moving from raid is an action applying to nothing.
+Understand "move from raid" or "move away from raid" or "drag ooze" or "move ooze" as moving from raid.
+
+Check moving from raid:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 5, say "No need to do that here." instead;
+	if the current boss is not Festergut, say "No ooze to move right now." instead;
+	if Fester-phase is not 1, say "Now is not the time to move from the raid." instead.
+
+Carry out moving from raid:
+	now Fester-phase is 2;
+	now Fester-deadline is the turn count;
+	increase Fester-deadline by 1;
+	say "[paragraph break]You pull the ooze away from the raid just in time!";
+	say "Now weaken Festergut — type [bold type]dps boss[roman type].";
+
+[Phase 2 and 4: Boss DPS specific to Festergut]
+DPSing festergut boss is an action applying to nothing.
+Understand "dps boss" as DPSing festergut boss when the location is Boss Room 5.
+
+Check DPSing festergut boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 5, say "No boss to DPS here." instead;
+	if the current boss is not Festergut, say "No boss to DPS right now." instead;
+	if Fester-phase is not 2 and Fester-phase is not 4, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing festergut boss:
+	if Fester-phase is 2:
+		now Fester-phase is 3;
+		now Fester-deadline is the turn count;
+		increase Fester-deadline by 1;
+		say "[paragraph break]You slam Festergut hard and weaken him!";
+		say "He begins casting [bold type]Ooze Explosion[roman type]!";
+		say "Survive it — type [bold type]move from boss[roman type].";
+	otherwise:
+		now Festergut is defeated;
+		now yourself is out-of-combat;
+		now Fester-phase is 0;
+		say "[paragraph break][bold type]Festergut is defeated![roman type]";
+		let L be loot-choice-for Festergut;
+		drop-loot-named L;
+		say "Loot drops: [L].";
+		say "Type [bold type]loot item[roman type] to pick it up.";
+
+[Phase 3: Move away from boss to survive explosion]
+Moving from boss is an action applying to nothing.
+Understand "move from boss" or "move away from boss" or "run from boss" or "back away" as moving from boss.
+
+Check moving from boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 5, say "No need to do that here." instead;
+	if the current boss is not Festergut, say "No need to run from a boss right now." instead;
+	if Fester-phase is not 3, say "Now is not the time to move from the boss." instead.
+
+Carry out moving from boss:
+	now Fester-phase is 4;
+	now Fester-deadline is the turn count;
+	increase Fester-deadline by 1;
+	say "[paragraph break]You move away at the last second — Ooze Explosion misses you!";
+	say "Finish him now — type [bold type]dps boss[roman type].";
+
+
+[========================
+  ROTFACE MECHANICS (TURN-BASED)
+========================]
+
+Rotface-phase is a number that varies.
+Rotface-phase is 0.
+[0=inactive, 1=needs stack (spore), 2=needs dps boss, 3=needs defensive (vile gas), 4=needs finish the boss]
+
+Rotface-deadline is a number that varies.
+Rotface-deadline is 0.
+
+[Phase 1: Stack spores]
+Stacking is an action applying to nothing.
+Understand "stack" or "stack spores" or "stack with raid" as stacking.
+
+Check stacking:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 6, say "No need to stack here." instead;
+	if the current boss is not Rotface, say "No spores to stack right now." instead;
+	if Rotface-phase is not 1, say "Now is not the time to stack." instead.
+
+Carry out stacking:
+	now Rotface-phase is 2;
+	now Rotface-deadline is the turn count;
+	increase Rotface-deadline by 1;
+	say "[paragraph break]You stack the [bold type]spores[roman type] with the raid and stabilize!";
+	say "Now weaken Rotface — type [bold type]dps boss[roman type].";
+
+[Phase 2: DPS boss (Rotface-specific so it doesn't collide)]
+DPSing rotface boss is an action applying to nothing.
+Understand "dps boss" as DPSing rotface boss when the location is Boss Room 6.
+
+Check DPSing rotface boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 6, say "No boss to DPS here." instead;
+	if the current boss is not Rotface, say "No boss to DPS right now." instead;
+	if Rotface-phase is not 2, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing rotface boss:
+	now Rotface-phase is 3;
+	now Rotface-deadline is the turn count;
+	increase Rotface-deadline by 1;
+	say "[paragraph break]Rotface is [bold type]LOW[roman type]! He releases [bold type]Vile Gas[roman type]!";
+	say "Survive it — type [bold type]defensive[roman type].";
+
+[Phase 3: Defensive vs Vile Gas]
+Using rotface defensive is an action applying to nothing.
+Understand "defensive" or "use defensive" or "use defensives" as using rotface defensive.
+
+Check using rotface defensive:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 6, say "No need for defensives here." instead;
+	if the current boss is not Rotface, say "No need for defensives right now." instead;
+	if Rotface-phase is not 3, say "Now is not the time to use a defensive." instead.
+
+Carry out using rotface defensive:
+	now Rotface-phase is 4;
+	now Rotface-deadline is the turn count;
+	increase Rotface-deadline by 1;
+	say "[paragraph break]You pop defensives and survive [bold type]Vile Gas[roman type]!";
+	say "Finish him — type [bold type]finish the boss[roman type].";
+
+[Phase 4: Finish boss (Rotface-specific)]
+Finishing Rotface is an action applying to nothing.
+Understand "finish the boss" or "finish boss" or "finish rotface" as finishing Rotface.
+
+Check finishing Rotface:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 6, say "No boss to finish here." instead;
+	if the current boss is not Rotface, say "That's not Rotface." instead;
+	if Rotface-phase is not 4, say "Now is not the time to finish the boss." instead.
+
+Carry out finishing Rotface:
+	now Rotface is defeated;
+	now yourself is out-of-combat;
+	now Rotface-phase is 0;
+	say "[paragraph break][bold type]Rotface is defeated![roman type]";
+	let L be loot-choice-for Rotface;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+[========================
+  PROFESSOR PUTRICIDE MECHANICS (TURN-BASED)
+========================]
+
+Putricide-phase is a number that varies.
+Putricide-phase is 0.
+[0=inactive,
+ 1=needs move (vial),
+ 2=needs dps green ooze,
+ 3=needs run from red ooze,
+ 4=needs defensive (enrage),
+ 5=needs dps boss]
+
+Putricide-deadline is a number that varies.
+Putricide-deadline is 0.
+
+[Phase 1: Move from vial]
+Moving away is an action applying to nothing.
+Understand "move" or "move away" or "move out" as moving away.
+
+Check moving away:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 7, say "No vial to move from here." instead;
+	if the current boss is not Professor Putricide, say "No need to move right now." instead;
+	if Putricide-phase is not 1, say "Now is not the time to move." instead.
+
+Carry out moving away:
+	now Putricide-phase is 2;
+	now Putricide-deadline is the turn count;
+	increase Putricide-deadline by 1;
+	say "[paragraph break]You move away as the vile vial shatters!";
+	say "A [bold type]Green Ooze[roman type] spawns! Kill it!";
+	say "Type [bold type]dps ooze[roman type].";
+
+[Phase 2: DPS green ooze]
+DPSing green ooze is an action applying to nothing.
+Understand "dps ooze" or "dps green ooze" as DPSing green ooze.
+
+Check DPSing green ooze:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 7, say "No ooze to DPS here." instead;
+	if the current boss is not Professor Putricide, say "No ooze to DPS right now." instead;
+	if Putricide-phase is not 2, say "Now is not the time to DPS the ooze." instead.
+
+Carry out DPSing green ooze:
+	now Putricide-phase is 3;
+	now Putricide-deadline is the turn count;
+	increase Putricide-deadline by 1;
+	say "[paragraph break]The green ooze explodes harmlessly!";
+	say "A [bold type]Red Ooze[roman type] forms — RUN!";
+	say "Type [bold type]run from ooze[roman type].";
+
+[Phase 3: Run from red ooze]
+Running from ooze is an action applying to nothing.
+Understand "run from ooze" or "run" or "kite ooze" as running from ooze.
+
+Check running from ooze:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 7, say "No ooze to run from here." instead;
+	if the current boss is not Professor Putricide, say "No need to run now." instead;
+	if Putricide-phase is not 3, say "Now is not the time to run." instead.
+
+Carry out running from ooze:
+	now Putricide-phase is 4;
+	now Putricide-deadline is the turn count;
+	increase Putricide-deadline by 1;
+	say "[paragraph break]You successfully kite the red ooze!";
+	say "[bold type]Professor Putricide goes ENRAGE![roman type]";
+	say "Survive it — type [bold type]defensive[roman type].";
+
+[Phase 4: Defensive vs Enrage - FIXED]
+
+Using putricide defensive is an action applying to nothing.
+
+Understand "defensive" or "use defensive"
+	as using putricide defensive
+	when the location is Boss Room 7.
+
+Check using putricide defensive:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the current boss is not Professor Putricide, say "No need for defensives right now." instead;
+	if Putricide-phase is not 4, say "Now is not the time to use defensives." instead.
+
+Carry out using putricide defensive:
+	now Putricide-phase is 5;
+	now Putricide-deadline is the turn count;
+	increase Putricide-deadline by 1;
+	say "[paragraph break]You survive the enrage!";
+	say "Finish him — type [bold type]dps boss[roman type].";
+
+
+[Phase 5: DPS boss – Putricide-specific]
+DPSing putricide boss is an action applying to nothing.
+Understand "dps boss" as DPSing putricide boss when the location is Boss Room 7.
+
+Check DPSing putricide boss:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 7, say "No boss to DPS here." instead;
+	if the current boss is not Professor Putricide, say "No boss to DPS right now." instead;
+	if Putricide-phase is not 5, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing putricide boss:
+	now Professor Putricide is defeated;
+	now yourself is out-of-combat;
+	now Putricide-phase is 0;
+	say "[paragraph break][bold type]Professor Putricide is defeated![roman type]";
+	let L be loot-choice-for Professor Putricide;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+
+[========================
+  BLOOD PRINCE COUNCIL MECHANICS (TURN-BASED)
+========================]
+
+Council-phase is a number that varies.
+Council-phase is 0.
+[0=inactive, 1=needs single target, 2=needs vortex avoid, 3=needs switch target, 4=needs dps boss finish]
+
+Council-deadline is a number that varies.
+Council-deadline is 0.
+
+
+[Phase 1: Single Target]
+Single-targeting is an action applying to nothing.
+Understand "single target" or "single" or "single-target" as single-targeting.
+
+Check single-targeting:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 8, say "No need for that here." instead;
+	if the current boss is not Blood Prince Council, say "No need for that right now." instead;
+	if Council-phase is not 1, say "Now is not the time for single target." instead.
+
+Carry out single-targeting:
+	now Council-phase is 2;
+	now Council-deadline is the turn count;
+	increase Council-deadline by 1;
+	say "[paragraph break]Perfect — you focus with [bold type]single target[roman type] damage only!";
+	say "Suddenly a [bold type]vortex[roman type] forms on the floor!";
+	say "Avoid it — type [bold type]vortex[roman type].";
+
+[Phase 2: Vortex avoid]
+Avoiding vortex is an action applying to nothing.
+Understand "vortex" or "avoid vortex" or "move from vortex" as avoiding vortex.
+
+Check avoiding vortex:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 8, say "No vortex here." instead;
+	if the current boss is not Blood Prince Council, say "No vortex to avoid right now." instead;
+	if Council-phase is not 2, say "Now is not the time to do that." instead.
+
+Carry out avoiding vortex:
+	now Council-phase is 3;
+	now Council-deadline is the turn count;
+	increase Council-deadline by 1;
+	say "[paragraph break]You sidestep the vortex just in time!";
+	say "One prince shifts into a [bold type]clone form[roman type]!";
+	say "Switch target — type [bold type]switch target[roman type].";
+
+[Phase 3: Switch target]
+Switching target is an action applying to nothing.
+Understand "switch target" or "switch" or "swap target" as switching target.
+
+Check switching target:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 8, say "No targets to switch here." instead;
+	if the current boss is not Blood Prince Council, say "No target to switch right now." instead;
+	if Council-phase is not 3, say "Now is not the time to switch target." instead.
+
+Carry out switching target:
+	now Council-phase is 4;
+	now Council-deadline is the turn count;
+	increase Council-deadline by 1;
+	say "[paragraph break]You switch target instantly — perfect focus!";
+	say "Finish them — type [bold type]dps boss[roman type].";
+
+[Phase 4: Finish Council - uses its OWN action to avoid collisions]
+Finishing Council is an action applying to nothing.
+Understand "dps boss" or "kill council" or "finish council" as finishing Council
+	when the location is Boss Room 8.
+
+Check finishing Council:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the current boss is not Blood Prince Council, say "No boss to DPS right now." instead;
+	if Council-phase is not 4, say "Now is not the time to DPS the boss." instead.
+
+Carry out finishing Council:
+	now Blood Prince Council is defeated;
+	now yourself is out-of-combat;
+	now Council-phase is 0;
+	say "[paragraph break][bold type]Blood Prince Council is defeated![roman type]";
+	let L be loot-choice-for Blood Prince Council;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+
+
+
+
+
+
 
 
 
@@ -973,16 +1577,6 @@ Carry out DPSing gunship adds:
 
 LK-phase is a number that varies.
 LK-phase is 0.
-[0=inactive,
- 1=needs use defensive (Soul Reaper),
- 2=needs smash litch king (big hit),
- 3=needs move to edge,
- 4=needs dps adds (at edge),
- 5=needs move to center,
- 6=needs smash litch king (back on boss),
- 7=needs stun adds (val'kyr),
- 8=needs dodge (defile),
- 9=needs finish boss]
 
 LK-deadline is a number that varies.
 LK-deadline is 0.
@@ -1186,6 +1780,52 @@ Every turn when yourself is in-combat and the location is Boss Room 3 and the cu
 	say "[paragraph break][bold type]Gunship Battle begins![roman type]";
 	say "To board the enemy ship, you must [bold type]equip rocket[roman type].";
 	say "Type [bold type]equip rocket[roman type] (you have 5 seconds).";
+
+[Saurfang loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 4 and the current boss is Deathbringer Saurfang and Saurfang-phase is 0:
+	now Saurfang-phase is 1;
+	now Saurfang-deadline is the turn count;
+	increase Saurfang-deadline by 1;
+	say "[paragraph break][bold type]Deathbringer Saurfang begins![roman type]";
+	say "He summons blood beasts — kill the adds!";
+	say "Type [bold type]dps adds[roman type] (you have 5 seconds).";
+
+[Festergut loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 5 and the current boss is Festergut and Fester-phase is 0:
+	now Fester-phase is 1;
+	now Fester-deadline is the turn count;
+	increase Fester-deadline by 1;
+	say "[paragraph break][bold type]Festergut begins![roman type]";
+	say "An ooze spawns on you! Move it away from the raid!";
+	say "Type [bold type]move from raid[roman type] (you have 5 seconds).";
+
+[Rotface loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 6 and the current boss is Rotface and Rotface-phase is 0:
+	now Rotface-phase is 1;
+	now Rotface-deadline is the turn count;
+	increase Rotface-deadline by 1;
+	say "[paragraph break][bold type]Rotface begins![roman type]";
+	say "[bold type]Spore[roman type] appears on you! You must stack with the raid!";
+	say "Type [bold type]stack[roman type] (you have 5 seconds).";
+
+[Putricide loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 7 and the current boss is Professor Putricide and Putricide-phase is 0:
+	now Putricide-phase is 1;
+	now Putricide-deadline is the turn count;
+	increase Putricide-deadline by 1;
+	say "[paragraph break][bold type]Professor Putricide begins![roman type]";
+	say "He throws a volatile vial at your feet!";
+	say "Move quickly — type [bold type]move[roman type] (you have 5 seconds).";
+
+
+[--- Start loop: Blood Prince Council ---]
+Every turn when yourself is in-combat and the location is Boss Room 8 and the current boss is Blood Prince Council and Council-phase is 0:
+	now Council-phase is 1;
+	now Council-deadline is the turn count;
+	increase Council-deadline by 1;
+	say "[paragraph break][bold type]Blood Prince Council begins![roman type]";
+	say "You must do damage with [bold type]single target[roman type] abilities only!";
+	say "Type [bold type]single target[roman type] (you have 5 seconds).";
 
 
 
