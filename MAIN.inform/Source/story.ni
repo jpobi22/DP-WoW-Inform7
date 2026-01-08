@@ -529,7 +529,7 @@ Before going when yourself is in-combat and in a boss room:
 ========================]
 
 Teleport-listing is an action applying to nothing.
-Understand "teleport list" or "teleport destinations" or "teleport" as teleport-listing.
+Understand "teleport list" or "teleport destinations" or "teleport" or "teleporter" as teleport-listing.
 
 Check teleport-listing:
 	if the player is dead:
@@ -590,7 +590,7 @@ Carry out teleporting-to:
 
 
 [========================
-  MARROWGAR MECHANICS (NO if: BLOCKS)
+  ALL BOSS MECHANICS
 ========================]
 
 Marrowgar-phase is a number that varies.
@@ -683,6 +683,64 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		stop the action;
 
 
+
+
+
+
+
+[Hard fail: Lich King deadlines]
+Before doing something when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King:
+	if LK-phase is 1 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! Soul Reaper cleaves you down.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 2 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! You fail to punish him and the raid collapses.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 3 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! The shockwave catches you before you reach the edge.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 4 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! The adds overwhelm you at the edge.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 5 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! You don't return to the center in time.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 6 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! The val'kyr carry raid members into the abyss.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 7 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! Defile spreads and consumes the platform.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+	if LK-phase is 8 and the turn count > LK-deadline:
+		say "[paragraph break]Too late! The last moment is lost — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now LK-phase is 0;
+		stop the action;
+
+
+
 Dodging is an action applying to nothing.
 Understand "dodge" as dodging.
 
@@ -753,7 +811,7 @@ Carry out DPSing adds:
 	say "Type [bold type]dps boss[roman type].";
 
 DPSing boss is an action applying to nothing.
-Understand "dps boss" as DPSing boss.
+Understand "smash litch king" as DPSing boss.
 
 Check DPSing boss:
 	if the player is dead, say "You're dead." instead;
@@ -900,6 +958,197 @@ Carry out DPSing gunship adds:
 	say "Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
+
+
+
+
+
+
+
+
+
+[========================
+  LICH KING MECHANICS (TURN-BASED)
+========================]
+
+LK-phase is a number that varies.
+LK-phase is 0.
+[0=inactive,
+ 1=needs use defensive (Soul Reaper),
+ 2=needs smash litch king (big hit),
+ 3=needs move to edge,
+ 4=needs dps adds (at edge),
+ 5=needs move to center,
+ 6=needs smash litch king (back on boss),
+ 7=needs stun adds (val'kyr),
+ 8=needs dodge (defile),
+ 9=needs finish boss]
+
+LK-deadline is a number that varies.
+LK-deadline is 0.
+
+Using defensive is an action applying to nothing.
+Understand "use defensive" or "defensive" as using defensive.
+
+Check using defensive:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No need for defensives here." instead;
+	if the current boss is not The Lich King, say "No need for defensives right now." instead;
+	if LK-phase is not 1, say "Now is not the time to use a defensive." instead.
+
+Carry out using defensive:
+	now LK-phase is 2;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]You pop a defensive and survive [bold type]Soul Reaper[roman type]!";
+	say "Now punish him — type [bold type]dps boss[roman type].";
+
+
+[--- NEW: Lich King boss DPS command (DOES NOT REUSE Deathwhisper DPSing boss) ---]
+Smashing Lich King is an action applying to nothing.
+Understand "smash litch king" or "smash lich king" or "dps lich king" as smashing Lich King.
+[Optional alias only for LK:]
+Understand "dps boss" as smashing Lich King when the location is Boss Room 12.
+
+Check smashing Lich King:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 12, say "No need to do that here." instead;
+	if the current boss is not The Lich King, say "No boss to DPS right now." instead;
+	if LK-phase is not 2 and LK-phase is not 6, say "Now is not the time to smash the Lich King." instead.
+
+Carry out smashing Lich King:
+	if LK-phase is 2:
+		now LK-phase is 3;
+		now LK-deadline is the turn count;
+		increase LK-deadline by 1;
+		say "[paragraph break]Massive hit! The Lich King strides to the center of the platform!";
+		say "Run to safety — type [bold type]move to edge[roman type].";
+	otherwise:
+		[now LK-phase is 6]
+		now LK-phase is 7;
+		now LK-deadline is the turn count;
+		increase LK-deadline by 1;
+		say "[paragraph break]You punish the Lich King in the center!";
+		say "Suddenly, [bold type]val'kyr[roman type] descend!";
+		say "Stop them — type [bold type]stun adds[roman type].";
+
+
+Moving to edge is an action applying to nothing.
+Understand "move to edge" or "run to edge" or "edge" as moving to edge.
+
+Check moving to edge:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No edge to run to here." instead;
+	if the current boss is not The Lich King, say "No need to run now." instead;
+	if LK-phase is not 3, say "Now is not the time to move to the edge." instead.
+
+Carry out moving to edge:
+	now LK-phase is 4;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]You sprint to the edge of the platform!";
+	say "Adds spawn — kill them: [bold type]dps adds[roman type].";
+
+
+[--- NEW: LK-specific 'dps adds' (prevents collision with Deathwhisper/Gunship) ---]
+DPSing lichking adds is an action applying to nothing.
+Understand "dps adds" as DPSing lichking adds when the location is Boss Room 12.
+
+Check DPSing lichking adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 12, say "No adds to DPS here." instead;
+	if the current boss is not The Lich King, say "No adds to DPS right now." instead;
+	if LK-phase is not 4, say "Now is not the time to DPS adds." instead.
+
+Carry out DPSing lichking adds:
+	now LK-phase is 5;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]Adds destroyed. Get back to the fight!";
+	say "Type [bold type]move to center[roman type].";
+
+
+Moving to center is an action applying to nothing.
+Understand "move to center" or "run to center" or "center" as moving to center.
+
+Check moving to center:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No center to move to here." instead;
+	if the current boss is not The Lich King, say "No need to do that now." instead;
+	if LK-phase is not 5, say "Now is not the time to move to the center." instead.
+
+Carry out moving to center:
+	now LK-phase is 6;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]You return to the center!";
+	say "Now keep pressuring him — type [bold type]dps boss[roman type].";
+
+
+Stunning adds is an action applying to nothing.
+Understand "stun adds" or "stun" as stunning adds.
+
+Check stunning adds:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No adds to stun here." instead;
+	if the current boss is not The Lich King, say "No adds to stun right now." instead;
+	if LK-phase is not 7, say "Now is not the time to stun adds." instead.
+
+Carry out stunning adds:
+	now LK-phase is 8;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]You stun the val'kyr and the raid cleans them up!";
+	say "The Lich King casts [bold type]Defile[roman type] — dodge it now!";
+	say "Type [bold type]move from defile[roman type].";
+
+
+Moving from defile is an action applying to nothing.
+Understand "move from defile" or "move away" or "move away from defile" or "defile" as moving from defile.
+
+Check moving from defile:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No defile to move from here." instead;
+	if the current boss is not The Lich King, say "No need to move from defile right now." instead;
+	if LK-phase is not 8, say "Now is not the time to move from defile." instead.
+
+Carry out moving from defile:
+	now LK-phase is 9;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break]You move out of Defile just in time!";
+	say "Finish him — type [bold type]kill boss[roman type].";
+
+
+Killing the Lich King is an action applying to nothing.
+Understand "kill lich king" or "kill the lich king" or "kill king" or "kill boss" as killing the Lich King.
+
+Check killing the Lich King:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 12, say "No Lich King here." instead;
+	if the current boss is not The Lich King, say "That's not the Lich King." instead;
+	if LK-phase is not 9, say "Now is not the time to finish him." instead.
+
+Carry out killing the Lich King:
+	now The Lich King is defeated;
+	now yourself is out-of-combat;
+	now LK-phase is 0;
+	say "[paragraph break][bold type]THE LICH KING IS DEFEATED![roman type]";
+	let L be loot-choice-for The Lich King;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+
+
 [========================
   COMBAT LOOP (NO if: BLOCKS)
 ========================]
@@ -938,6 +1187,20 @@ Every turn when yourself is in-combat and the location is Boss Room 3 and the cu
 	say "To board the enemy ship, you must [bold type]equip rocket[roman type].";
 	say "Type [bold type]equip rocket[roman type] (you have 5 seconds).";
 
+
+
+
+
+
+
+[Lich King loop - start sequence]
+Every turn when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King and LK-phase is 0:
+	now LK-phase is 1;
+	now LK-deadline is the turn count;
+	increase LK-deadline by 1;
+	say "[paragraph break][bold type]The Lich King begins![roman type]";
+	say "He swings with [bold type]Soul Reaper[roman type]! Survive it!";
+	say "Type [bold type]use defensive[roman type] (you have 5 seconds).";
 
 [========================
   CONTEXT COMMAND OPTIONS (AFTER EACH TURN)
