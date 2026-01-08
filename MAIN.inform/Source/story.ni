@@ -1863,11 +1863,7 @@ Carry out helping healers:
 
 Sindra-phase is a number that varies.
 Sindra-phase is 0.
-[0=inactive,
- 1=needs dps boss (big dmg),
- 2=needs icy feet (run from frost explosion),
- 3=needs hide (behind ice tombs),
- 4=needs dps boss (finish)]
+
 
 Sindra-deadline is a number that varies.
 Sindra-deadline is 0.
@@ -1958,7 +1954,9 @@ LK-deadline is a number that varies.
 LK-deadline is 0.
 
 Using defensive is an action applying to nothing.
-Understand "use defensive" or "defensive" as using defensive.
+Understand "use defensive" or "defensive" as using defensive
+	when the location is Boss Room 12.
+
 
 Check using defensive:
 	if the player is dead, say "You're dead." instead;
