@@ -850,6 +850,77 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Lana-phase is 0;
 		stop the action;
 		
+[--- Hard fail: Valithria deadlines ---]
+Before doing something when yourself is in-combat and the location is Boss Room 10 and the current boss is Valithria Dreamwalker:
+	if Vali-phase is 1 and the turn count > Vali-deadline:
+		say "[paragraph break]Too late! You fail to position and the raid loses control of the room.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Vali-phase is 0;
+		stop the action;
+	if Vali-phase is 2 and the turn count > Vali-deadline:
+		say "[paragraph break]Too late! The Suppressor drains Valithria — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Vali-phase is 0;
+		stop the action;
+	if Vali-phase is 3 and the turn count > Vali-deadline:
+		say "[paragraph break]Too late! The Blistering Zombie explodes on you — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Vali-phase is 0;
+		stop the action;
+	if Vali-phase is 4 and the turn count > Vali-deadline:
+		say "[paragraph break]Too late! The Blazing Skeleton melts the raid — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Vali-phase is 0;
+		stop the action;
+	if Vali-phase is 5 and the turn count > Vali-deadline:
+		say "[paragraph break]Too late! Healers fall behind and Valithria dies — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Vali-phase is 0;
+		stop the action;
+		
+[--- Hard fail: Sindragosa deadlines ---]
+Before doing something when yourself is in-combat and the location is Boss Room 11 and the current boss is Sindragosa:
+	if Sindra-phase is 1 and the turn count > Sindra-deadline:
+		say "[paragraph break]Too late! You don't push enough damage and Sindragosa overwhelms the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Sindra-phase is 0;
+		stop the action;
+	if Sindra-phase is 2 and the turn count > Sindra-deadline:
+		say "[paragraph break]Too late! Frost Explosion detonates and you freeze solid — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Sindra-phase is 0;
+		stop the action;
+	if Sindra-phase is 3 and the turn count > Sindra-deadline:
+		say "[paragraph break]Too late! You fail to hide and the ледeni val wipes the raid.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Sindra-phase is 0;
+		stop the action;
+	if Sindra-phase is 4 and the turn count > Sindra-deadline:
+		say "[paragraph break]Too late! Sindragosa recovers and destroys the raid — wipe.";
+		hard-kill-player;
+		now yourself is out-of-combat;
+		now Sindra-phase is 0;
+		stop the action;
+		
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1671,7 +1742,204 @@ Carry out finishing Lana:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
+[========================
+  VALITHRIA DREAMWALKER MECHANICS (TURN-BASED)
+========================]
 
+Vali-phase is a number that varies.
+Vali-phase is 0.
+[0=inactive,
+ 1=needs right (position),
+ 2=needs dps suppresor,
+ 3=needs run away (blistering zombie),
+ 4=needs dps skeleton,
+ 5=needs help healers]
+
+Vali-deadline is a number that varies.
+Vali-deadline is 0.
+
+[Phase 1: Position right]
+Positioning right is an action applying to nothing.
+Understand "right" or "go right" or "move right" as positioning right.
+
+Check positioning right:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 10, say "No need to position here." instead;
+	if the current boss is not Valithria Dreamwalker, say "No need to do that right now." instead;
+	if Vali-phase is not 1, say "Now is not the time to move right." instead.
+
+Carry out positioning right:
+	now Vali-phase is 2;
+	now Vali-deadline is the turn count;
+	increase Vali-deadline by 1;
+	say "[paragraph break]You position to the [bold type]right side[roman type] of the room!";
+	say "A [bold type]Suppressor[roman type] spawns and starts draining Valithria!";
+	say "Kill it — type [bold type]dps suppresor[roman type].";
+
+[Phase 2: DPS Suppresor]
+DPSing suppresor is an action applying to nothing.
+Understand "dps suppresor" or "dps suppressor" or "kill suppresor" or "kill suppressor" as DPSing suppresor.
+
+Check DPSing suppresor:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 10, say "No Suppressor here." instead;
+	if the current boss is not Valithria Dreamwalker, say "No Suppressor to DPS right now." instead;
+	if Vali-phase is not 2, say "Now is not the time to DPS the Suppressor." instead.
+
+Carry out DPSing suppresor:
+	now Vali-phase is 3;
+	now Vali-deadline is the turn count;
+	increase Vali-deadline by 1;
+	say "[paragraph break]Suppressor down! Valithria breathes easier.";
+	say "A [bold type]Blistering Zombie[roman type] shambles toward you!";
+	say "Run — type [bold type]run away[roman type].";
+
+[Phase 3: Run away from zombie]
+Running away is an action applying to nothing.
+Understand "run away" or "run" or "escape" as running away.
+
+Check running away:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 10, say "No need to run here." instead;
+	if the current boss is not Valithria Dreamwalker, say "No need to run right now." instead;
+	if Vali-phase is not 3, say "Now is not the time to run away." instead.
+
+Carry out running away:
+	now Vali-phase is 4;
+	now Vali-deadline is the turn count;
+	increase Vali-deadline by 1;
+	say "[paragraph break]You kite the zombie away and avoid the explosion!";
+	say "A [bold type]Blazing Skeleton[roman type] spawns — it must die fast!";
+	say "Type [bold type]dps skeleton[roman type].";
+
+[Phase 4: DPS Skeleton]
+DPSing skeleton is an action applying to nothing.
+Understand "dps skeleton" or "kill skeleton" as DPSing skeleton.
+
+Check DPSing skeleton:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 10, say "No skeleton here." instead;
+	if the current boss is not Valithria Dreamwalker, say "No skeleton to DPS right now." instead;
+	if Vali-phase is not 4, say "Now is not the time to DPS the skeleton." instead.
+
+Carry out DPSing skeleton:
+	now Vali-phase is 5;
+	now Vali-deadline is the turn count;
+	increase Vali-deadline by 1;
+	say "[paragraph break]Blazing Skeleton destroyed!";
+	say "Now support the healers — Valithria must be saved!";
+	say "Type [bold type]help healers[roman type].";
+
+[Phase 5: Help healers (finish encounter)]
+Helping healers is an action applying to nothing.
+Understand "help healers" or "help" or "assist healers" as helping healers.
+
+Check helping healers:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 10, say "No healers to help here." instead;
+	if the current boss is not Valithria Dreamwalker, say "No need to help healers right now." instead;
+	if Vali-phase is not 5, say "Now is not the time to help healers." instead.
+
+Carry out helping healers:
+	now Valithria Dreamwalker is defeated;
+	now yourself is out-of-combat;
+	now Vali-phase is 0;
+	say "[paragraph break][bold type]Valithria Dreamwalker is saved![roman type]";
+	let L be loot-choice-for Valithria Dreamwalker;
+	drop-loot-named L;
+	say "Loot drops: [L].";
+	say "Type [bold type]loot item[roman type] to pick it up.";
+
+
+
+[========================
+  SINDRAGOSA MECHANICS (TURN-BASED)
+========================]
+
+Sindra-phase is a number that varies.
+Sindra-phase is 0.
+[0=inactive,
+ 1=needs dps boss (big dmg),
+ 2=needs icy feet (run from frost explosion),
+ 3=needs hide (behind ice tombs),
+ 4=needs dps boss (finish)]
+
+Sindra-deadline is a number that varies.
+Sindra-deadline is 0.
+
+[--- NEW: Sindragosa DPS boss (LK-safe, no collision) ---]
+DPSing Sindragosa is an action applying to nothing.
+Understand "dps boss" as DPSing Sindragosa when the location is Boss Room 11.
+Understand "dps sindragosa" or "smash sindragosa" or "attack sindragosa" as DPSing Sindragosa.
+
+Check DPSing Sindragosa:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
+	if the location is not Boss Room 11, say "No boss to DPS here." instead;
+	if the current boss is not Sindragosa, say "No boss to DPS right now." instead;
+	if Sindra-phase is not 1 and Sindra-phase is not 4, say "Now is not the time to DPS the boss." instead.
+
+Carry out DPSing Sindragosa:
+	if Sindra-phase is 1:
+		now Sindra-phase is 2;
+		now Sindra-deadline is the turn count;
+		increase Sindra-deadline by 1;
+		say "[paragraph break]You unleash massive damage! Sindragosa shrieks in pain!";
+		say "She begins casting [bold type]Frost Explosion[roman type]!";
+		say "Run fast — type [bold type]icy feet[roman type].";
+	otherwise:
+		[now Sindra-phase is 4]
+		now Sindragosa is defeated;
+		now yourself is out-of-combat;
+		now Sindra-phase is 0;
+		say "[paragraph break][bold type]Sindragosa is defeated![roman type]";
+		let L be loot-choice-for Sindragosa;
+		drop-loot-named L;
+		say "Loot drops: [L].";
+		say "Type [bold type]loot item[roman type] to pick it up.";
+
+[Phase 2: Run from Frost Explosion]
+Icy-feeting is an action applying to nothing.
+Understand "icy feet" or "run icy feet" or "ice feet" as icy-feeting.
+
+Check icy-feeting:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 11, say "No need to do that here." instead;
+	if the current boss is not Sindragosa, say "No need to do that right now." instead;
+	if Sindra-phase is not 2, say "Now is not the time for icy feet." instead.
+
+Carry out icy-feeting:
+	now Sindra-phase is 3;
+	now Sindra-deadline is the turn count;
+	increase Sindra-deadline by 1;
+	say "[paragraph break]You sprint away just in time — Frost Explosion misses you!";
+	say "Sindragosa drops [bold type]Ice Tombs[roman type] — hide behind them!";
+	say "Type [bold type]hide[roman type].";
+
+[Phase 3: Hide behind Ice Tombs]
+Hiding is an action applying to nothing.
+Understand "hide" or "hide behind tomb" or "hide behind ice" as hiding.
+
+Check hiding:
+	if the player is dead, say "You're dead." instead;
+	if yourself is out-of-combat, say "You're not in combat." instead;
+	if the location is not Boss Room 11, say "No place to hide here." instead;
+	if the current boss is not Sindragosa, say "No need to hide right now." instead;
+	if Sindra-phase is not 3, say "Now is not the time to hide." instead.
+
+Carry out hiding:
+	now Sindra-phase is 4;
+	now Sindra-deadline is the turn count;
+	increase Sindra-deadline by 1;
+	say "[paragraph break]You hide behind the Ice Tombs and survive the ледeni удар!";
+	say "Sindragosa lands again — finish her!";
+	say "Type [bold type]dps boss[roman type].";
 
 
 
@@ -1944,6 +2212,25 @@ Every turn when yourself is in-combat and the location is Boss Room 9 and the cu
 	say "She ignites the floor with bloodfire!";
 	say "Move away — type [bold type]move from fire[roman type] (you have 5 seconds).";
 	
+
+[--- Start loop: Valithria Dreamwalker ---]
+Every turn when yourself is in-combat and the location is Boss Room 10 and the current boss is Valithria Dreamwalker and Vali-phase is 0:
+	now Vali-phase is 1;
+	now Vali-deadline is the turn count;
+	increase Vali-deadline by 1;
+	say "[paragraph break][bold type]Valithria Dreamwalker encounter begins![roman type]";
+	say "Adds flood the room — you must position correctly!";
+	say "Go right — type [bold type]right[roman type] (you have 5 seconds).";
+	
+
+[--- Start loop: Sindragosa ---]
+Every turn when yourself is in-combat and the location is Boss Room 11 and the current boss is Sindragosa and Sindra-phase is 0:
+	now Sindra-phase is 1;
+	now Sindra-deadline is the turn count;
+	increase Sindra-deadline by 1;
+	say "[paragraph break][bold type]Sindragosa encounter begins![roman type]";
+	say "You must burst hard at the start!";
+	say "Type [bold type]dps boss[roman type] (you have 5 seconds).";
 
 
 
