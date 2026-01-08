@@ -73,6 +73,17 @@ The Trash 12 is south of the Boss Room 11.
 The Boss Room 12 is north of Trash 12.
 
 [========================
+  TELEPORTERS
+========================]
+
+The Entrance Teleporter is a thing in the ICC Entrance.
+The description is "A frosty teleport pad. Type [bold type]teleport list[roman type] to see destinations, or [bold type]teleport to <number>[roman type] (1-12).".
+
+The Throne Teleporter is a thing.
+The Throne Teleporter is nowhere.
+The description of the Throne Teleporter is "A frozen teleport pad empowered by the Lich King's fall. Type [bold type]teleport list[roman type] or [bold type]teleport to <number>[roman type].".
+
+[========================
   KINDS
 ========================]
 
@@ -367,6 +378,30 @@ To decide which raid-boss is the current boss:
 To decide which trash-mob is the current trash:
 	let T be a random trash-mob in the location;
 	decide on T.
+[========================
+  TELEPORT HELPERS
+========================]
+
+To decide which raid-boss is boss-with-id (N - a number):
+	repeat with B running through raid-bosses:
+		if the boss-id of B is N:
+			decide on B;
+	decide on Lord Marrowgar.
+
+To decide which room is trash-room-with-id (N - a number):
+	if N is 1, decide on Trash 1;
+	if N is 2, decide on Trash 2;
+	if N is 3, decide on Trash 3;
+	if N is 4, decide on Trash 4;
+	if N is 5, decide on Trash 5;
+	if N is 6, decide on Trash 6;
+	if N is 7, decide on Trash 7;
+	if N is 8, decide on Trash 8;
+	if N is 9, decide on Trash 9;
+	if N is 10, decide on Trash 10;
+	if N is 11, decide on Trash 11;
+	decide on Trash 12.
+
 
 [========================
   DEATH + RELEASE SPIRIT
@@ -489,6 +524,70 @@ Before going north when in a boss room:
 
 Before going when yourself is in-combat and in a boss room:
 	say "You can't leave now — the boss fight is in progress!" instead.
+[========================
+  TELEPORT ACTIONS
+========================]
+
+Teleport-listing is an action applying to nothing.
+Understand "teleport list" or "teleport destinations" or "teleport" as teleport-listing.
+
+Check teleport-listing:
+	if the player is dead:
+		say "You are dead. Only [bold type]release spirit[roman type] works now." instead;
+	if yourself is in-combat:
+		say "You can't use the teleporter during combat!" instead;
+	unless the Entrance Teleporter is in the location or the Throne Teleporter is in the location:
+		say "There is no teleporter here." instead.
+
+Carry out teleport-listing:
+	say "[paragraph break][bold type]Teleport destinations:[roman type][line break]";
+	repeat with N running from 1 to 12:
+		say " - [bold type][N][roman type]: Boss Room [N][line break]";
+	say "[paragraph break]Use: [bold type]teleport to <number>[roman type].";
+	
+
+Teleporting-to is an action applying to one number.
+Understand "teleport to [number]" as teleporting-to.
+
+Check teleporting-to:
+	if the player is dead:
+		say "You are dead. Only [bold type]release spirit[roman type] works now." instead;
+	if yourself is in-combat:
+		say "You can't teleport during combat!" instead;
+	unless the Entrance Teleporter is in the location or the Throne Teleporter is in the location:
+		say "There is no teleporter here." instead;
+	if the number understood < 1 or the number understood > 12:
+		say "Invalid destination. Use a number from 1 to 12." instead.
+
+
+Carry out teleporting-to:
+	if the number understood is 1:
+		move the player to Boss Room 1;
+	otherwise if the number understood is 2:
+		move the player to Boss Room 2;
+	otherwise if the number understood is 3:
+		move the player to Boss Room 3;
+	otherwise if the number understood is 4:
+		move the player to Boss Room 4;
+	otherwise if the number understood is 5:
+		move the player to Boss Room 5;
+	otherwise if the number understood is 6:
+		move the player to Boss Room 6;
+	otherwise if the number understood is 7:
+		move the player to Boss Room 7;
+	otherwise if the number understood is 8:
+		move the player to Boss Room 8;
+	otherwise if the number understood is 9:
+		move the player to Boss Room 9;
+	otherwise if the number understood is 10:
+		move the player to Boss Room 10;
+	otherwise if the number understood is 11:
+		move the player to Boss Room 11;
+	otherwise:
+		move the player to Boss Room 12;
+	say "[paragraph break]You step into the teleporter... [bold type]Destination reached.[roman type]";
+	try looking.
+
 
 [========================
   MARROWGAR MECHANICS (NO if: BLOCKS)
@@ -857,6 +956,15 @@ Every turn when the player is alive and gear-broken is false:
 			say "go <direction>, look, inventory, die (debug), repair (if needed).";
 		otherwise:
 			say "go <direction>, look, inventory.";
+[========================
+  THRONE TELEPORTER UNLOCK
+========================]
+
+Every turn:
+	if The Lich King is defeated and the Throne Teleporter is nowhere:
+		move the Throne Teleporter to Boss Room 12;
+		say "[paragraph break][bold type]A frozen teleporter forms beside the Lich King's throne.[roman type]";
+		say "You can now use [bold type]teleport list[roman type] and [bold type]teleport to <number>[roman type] from here.";
 
 [========================
   TEST
