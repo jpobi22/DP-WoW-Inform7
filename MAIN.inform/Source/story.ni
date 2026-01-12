@@ -13,14 +13,14 @@ To say raid-status:
 	say "[if the player is alive]ALIVE[otherwise]DEAD[end if]".
 
 When play begins:
-	say "Icecrown Citadel raid start. Status: [raid-status].".
+	say "Welcome to Icecrown Citadel, mortal. Status: [raid-status].".
 
 [========================
-  OPEN WORLD (ONLY ON DEATH)
+  OPEN WORLD
 ========================]
 
 The Open World Graveyard is a room.
-"You are at the graveyard outside the raid because you are DEAD. The cold winds howls. Other spirits are whispering to you. Do not listen to them. Go to the light.
+"You are DEAD and teleported to the graveyard outside the raid. The cold winds howls. Other spirits are whispering to you. Do not listen to them. Go to the light.
 You can only return by typing [bold type]release spirit[roman type]."
 
 [========================
@@ -77,7 +77,7 @@ The Boss Room 12 is north of Trash 12.
 ========================]
 
 The Entrance Teleporter is a thing in the ICC Entrance.
-The description is "A frosty teleport pad. Type [bold type]teleport list[roman type] to see destinations, or [bold type]teleport to <number>[roman type] (1-12).".
+The description is "A frosty teleport pad made by The Old Gods. Type [bold type]teleport list[roman type] to see destinations, or [bold type]teleport to <number>[roman type] (1-12).".
 
 The Throne Teleporter is a thing.
 The Throne Teleporter is nowhere.
@@ -98,7 +98,7 @@ A trash-mob can be alive-trash or dead-trash.
 A trash-mob is alive-trash.
 
 [========================
-  BOSSES (ICC ORDER)
+  BOSSES
 ========================]
 
 Lord Marrowgar is a raid-boss in the Boss Room 1.
@@ -138,7 +138,7 @@ The Lich King is a raid-boss in the Boss Room 12.
 The boss-id of The Lich King is 12.
 
 [========================
-  TRASH
+  TRASH MOBS
 ========================]
 
 Trash Pack 1 is a trash-mob in Trash 1.
@@ -157,7 +157,7 @@ Trash Pack 11 is a trash-mob in Trash 11.
 Trash Pack 12 is a trash-mob in Trash 12.
 
 [========================
-  LOOT (NO TABLES) - SAFE VERSION
+  LOOT
 ========================]
 
 To decide what text is loot-choice-for (B - a raid-boss):
@@ -188,9 +188,9 @@ To decide what text is loot-choice-for (B - a raid-boss):
 	otherwise if B is Deathbringer Saurfang:
 		let R be a random number from 1 to 3;
 		if R is 1:
-			decide on "Thaumaturge's Crackling Cowl";
+			decide on "DBW trinket";
 		otherwise if R is 2:
-			decide on "Soulcleave Pendant";
+			decide on "2 Upgrade marks";
 		otherwise:
 			decide on "Ramaladni's Blade of Culling";
 	otherwise if B is Festergut:
@@ -265,7 +265,7 @@ To say random-loot-for (B - a raid-boss):
 
 
 [========================
-  LOOT ITEMS (MULTI) + COMMAND
+  LOOT ITEMS
 ========================]
 
 A loot-item is a kind of thing.
@@ -313,16 +313,16 @@ Carry out looting:
 		say "There's no loot to take.".
 
 [========================
-  LOOK: CORPSES / DEFEATED BOSSES
+  LOOK: MOBS & BOSSES
 ========================]
 
 After looking when in a trash room:
 	if the current trash is dead-trash:
-		say "[paragraph break]The dead [current trash] lies here. The trash pack is cleared.".
+		say "[paragraph break]The dead [current trash] lies here. The trash pack is cleared. You can move onwards without consequences".
 
 After looking when in a boss room:
 	if the current boss is defeated:
-		say "[paragraph break][The current boss] lies defeated on the cold stone.".
+		say "[paragraph break][The current boss] lies defeated on the ground.".
 
 After looking:
 	if a loot-item is in the location:
@@ -332,7 +332,7 @@ After looking:
 
 
 [========================
-  DURABILITY / REPAIR
+  DURABILITY & REPAIR
 ========================]
 
 The revive-without-repair count is a number that varies.
@@ -351,10 +351,10 @@ Check repairing:
 Carry out repairing:
 	now revive-without-repair count is 0;
 	now gear-broken is false;
-	say "You repair your gear. Everything feels solid again.";
+	say "You have successfully repaired your gear. Durability on all of your gear is not back to full.";
 
 [========================
-  COMBAT STATE + HELPERS
+  COMBAT STATE
 ========================]
 
 Yourself can be in-combat or out-of-combat.
@@ -379,7 +379,7 @@ To decide which trash-mob is the current trash:
 	let T be a random trash-mob in the location;
 	decide on T.
 [========================
-  TELEPORT HELPERS
+  TELEPORT IDs
 ========================]
 
 To decide which raid-boss is boss-with-id (N - a number):
@@ -404,7 +404,7 @@ To decide which room is trash-room-with-id (N - a number):
 
 
 [========================
-  DEATH + RELEASE SPIRIT
+  DEATH
 ========================]
 
 Dying is an action applying to nothing.
@@ -433,7 +433,7 @@ Carry out releasing spirit:
 	say "[paragraph break]Your equipment is a bit damaged from dying.";
 	
 After releasing spirit when revive-without-repair count is 1:
-	say "You can still die and run back [bold type]2[roman type] more times before your gear becomes useless.";
+	say "You can still die and run back [bold type]2[roman type] more times before your gear becomes useless. Then you will NEED to repair it or otherwise you wont be able to fight.";
 	
 After releasing spirit when revive-without-repair count is 2:
 	say "Careful: you can only die and run back [bold type]1[roman type] more time before your gear becomes useless.";
@@ -449,9 +449,6 @@ After releasing spirit when revive-without-repair count > 3:
 After releasing spirit:
 	say "[paragraph break][bold type]Repair now?[roman type] Type [bold type]repair[roman type] (recommended).";
 
-[========================
-  BLOCK PROGRESS IF GEAR IS BROKEN
-========================]
 
 Before going when gear-broken is true:
 	say "Your gear is broken. You must [bold type]repair[roman type] at the entrance before moving on." instead.
@@ -507,7 +504,7 @@ Carry out fighting:
 		say "You pull [the current boss]! The boss encounter begins!";
 
 [========================
-  PROGRESSION GATES
+  SKIP BLOCK
 ========================]
 
 Before going north when in a trash room:
@@ -519,13 +516,13 @@ Before going north when in a boss room:
 		say "[The current boss] blocks the way. Type [bold type]fight[roman type] to start the encounter." instead.
 		
 [========================
-  NO LEAVING BOSS FIGHT
+  NO LEAVING
 ========================]
 
 Before going when yourself is in-combat and in a boss room:
 	say "You can't leave now — the boss fight is in progress!" instead.
 [========================
-  TELEPORT ACTIONS
+  TELEPORT OPTIONS
 ========================]
 
 Teleport-listing is an action applying to nothing.
@@ -590,14 +587,14 @@ Carry out teleporting-to:
 
 
 [========================
-  ALL BOSS MECHANICS
+ BOSS MECHANICS
 ========================]
 
 Marrowgar-phase is a number that varies.
-Marrowgar-phase is 0. [0=inactive, 1=needs dodge, 2=needs dps]
+Marrowgar-phase is 0. 
 
 Marrowgar-deadline is a number that varies.
-Marrowgar-deadline is 0. [turn number deadline]
+Marrowgar-deadline is 0. 
 
 A bone tomb is a thing.
 The bone tomb can be intact or shattered.
@@ -608,7 +605,7 @@ To hard-kill-player:
 	move the player to the Open World Graveyard;
 	say "[paragraph break][bold type]You died.[roman type] Type [bold type]release spirit[roman type].";
 
-[Hard fail: if the deadline passed, you die BEFORE any command (even dodge/dps).]
+[Hard fail: if the deadline passed, you die BEFORE any command]
 Before doing something when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar:
 	if Marrowgar-phase is 1 and the turn count > Marrowgar-deadline:
 		say "[paragraph break]Too late! Bone Storm already hits you.";
@@ -623,7 +620,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Marrowgar-phase is 0;
 		stop the action;
 
-[Hard fail: Deathwhisper deadlines (you can type other commands, but if you miss the step you die).]
+[Hard fail: Deathwhisper deadlines]
 Before doing something when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper:
 	if Deathwhisper-phase is 1 and the turn count > Deathwhisper-deadline:
 		say "[paragraph break]Too late! The adds overwhelm the raid.";
@@ -910,25 +907,6 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Sindra-phase is 0;
 		stop the action;
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 [Hard fail: Lich King deadlines]
 Before doing something when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King:
 	if LK-phase is 1 and the turn count > LK-deadline:
@@ -1020,19 +998,20 @@ Carry out DPSing:
 	say "[paragraph break]You burst the [bold type]bone tombs[roman type] with heavy DPS!";
 	let L be loot-choice-for Lord Marrowgar;
 	drop-loot-named L;
-	say "[bold type]Lord Marrowgar is defeated![roman type] Loot drops: [L].";
+	say "[bold type]Lord Marrowgar is defeated!";
+	say "[roman type] Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  DEATHWHISPER MECHANICS (TURN-BASED)
+  2nd boss MECHANICS
 ========================]
 
 Deathwhisper-phase is a number that varies.
-Deathwhisper-phase is 0. [0=inactive, 1=needs dps adds, 2=needs dps boss(shield), 3=needs finish boss]
+Deathwhisper-phase is 0. 
 
 Deathwhisper-deadline is a number that varies.
-Deathwhisper-deadline is 0. [turn deadline]
+Deathwhisper-deadline is 0. 
 
 DPSing adds is an action applying to nothing.
 Understand "dps adds" as DPSing adds.
@@ -1052,7 +1031,7 @@ Carry out DPSing adds:
 	say "Type [bold type]dps boss[roman type].";
 
 DPSing boss is an action applying to nothing.
-
+Understand "dps boss" as DPSing boss.
 Check DPSing boss:
 	if the player is dead, say "You're dead." instead;
 	if yourself is out-of-combat, say "There's nothing to DPS right now." instead;
@@ -1081,20 +1060,19 @@ Carry out finishing boss:
 	now Lady Deathwhisper is defeated;
 	now yourself is out-of-combat;
 	now Deathwhisper-phase is 0;
-	say "[paragraph break][bold type]Lady Deathwhisper is defeated![roman type]";
+	say "[paragraph break][bold type]Lady Deathwhisper is defeated!";
 	let L be loot-choice-for Lady Deathwhisper;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 	
 
 [========================
-  GUNSHIP BATTLE MECHANICS (TURN-BASED)
+  3rd boss MECHANICS 
 ========================]
 
 Gunship-phase is a number that varies.
 Gunship-phase is 0.
-[0=inactive, 1=needs equip rocket, 2=needs jump, 3=needs dps mage, 4=needs jump back, 5=needs dps adds]
 
 Gunship-deadline is a number that varies.
 Gunship-deadline is 0.
@@ -1192,25 +1170,25 @@ Carry out DPSing gunship adds:
 	now yourself is out-of-combat;
 	now Gunship-phase is 0;
 	now rocket-equipped is false;
-	say "[paragraph break][bold type]Gunship Battle is defeated![roman type]";
+	say "[paragraph break][bold type]Gunship Battle is defeated!";
 	let L be loot-choice-for Gunship Battle;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  DEATHBRINGER SAURFANG MECHANICS (TURN-BASED)
+  4th boss MECHANICS 
 ========================]
 
 Saurfang-phase is a number that varies.
 Saurfang-phase is 0.
-[0=inactive, 1=needs dps adds, 2=needs use dps CD, 3=needs kill adds, 4=needs dps boss]
+
 
 Saurfang-deadline is a number that varies.
 Saurfang-deadline is 0.
 
-[Phase 1: DPS initial adds]
+
 DPSing saurfang adds is an action applying to nothing.
 Understand "dps adds" as DPSing saurfang adds when the location is Boss Room 4.
 
@@ -1228,7 +1206,7 @@ Carry out DPSing saurfang adds:
 	say "[paragraph break]You destroy the adds! Saurfang grows stronger!";
 	say "Pop DPS cooldowns — type [bold type]use dps CD[roman type].";
 
-[Phase 2: Use DPS cooldowns]
+
 Using DPS cooldowns is an action applying to nothing.
 Understand "use dps cd" or "use dps cooldowns" or "dps cd" as using DPS cooldowns.
 
@@ -1246,7 +1224,7 @@ Carry out using DPS cooldowns:
 	say "[paragraph break]You unleash DPS cooldowns! Saurfang staggers!";
 	say "But more adds spawn — kill them now: [bold type]kill adds[roman type].";
 
-[Phase 3: Kill second wave adds]
+
 Killing saurfang adds is an action applying to nothing.
 Understand "kill adds" as killing saurfang adds.
 
@@ -1264,7 +1242,7 @@ Carry out killing saurfang adds:
 	say "[paragraph break]Adds are dead! Saurfang is at the brink of death!";
 	say "Finish him — type [bold type]dps boss[roman type].";
 
-[Phase 4: Finish boss]
+
 DPSing saurfang boss is an action applying to nothing.
 Understand "dps boss" as DPSing saurfang boss when the location is Boss Room 4.
 
@@ -1279,25 +1257,25 @@ Carry out DPSing saurfang boss:
 	now Deathbringer Saurfang is defeated;
 	now yourself is out-of-combat;
 	now Saurfang-phase is 0;
-	say "[paragraph break][bold type]Deathbringer Saurfang is defeated![roman type]";
+	say "[paragraph break][bold type]Deathbringer Saurfang is defeated!";
 	let L be loot-choice-for Deathbringer Saurfang;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  FESTERGUT MECHANICS (TURN-BASED)
+  5th boss MECHANICS 
 ========================]
 
 Fester-phase is a number that varies.
 Fester-phase is 0.
-[0=inactive, 1=needs move from raid (ooze on player), 2=needs dps boss (weaken), 3=needs move from boss (ooze explosion), 4=needs dps boss (kill)]
+
 
 Fester-deadline is a number that varies.
 Fester-deadline is 0.
 
-[Phase 1: Move ooze away from raid]
+
 Moving from raid is an action applying to nothing.
 Understand "move from raid" or "move away from raid" or "drag ooze" or "move ooze" as moving from raid.
 
@@ -1315,7 +1293,7 @@ Carry out moving from raid:
 	say "[paragraph break]You pull the ooze away from the raid just in time!";
 	say "Now weaken Festergut — type [bold type]dps boss[roman type].";
 
-[Phase 2 and 4: Boss DPS specific to Festergut]
+
 DPSing festergut boss is an action applying to nothing.
 Understand "dps boss" as DPSing festergut boss when the location is Boss Room 5.
 
@@ -1338,13 +1316,12 @@ Carry out DPSing festergut boss:
 		now Festergut is defeated;
 		now yourself is out-of-combat;
 		now Fester-phase is 0;
-		say "[paragraph break][bold type]Festergut is defeated![roman type]";
+		say "[paragraph break][bold type]Festergut is defeated!";
 		let L be loot-choice-for Festergut;
 		drop-loot-named L;
-		say "Loot drops: [L].";
+		say "[roman type]Loot drops: [L].";
 		say "Type [bold type]loot item[roman type] to pick it up.";
 
-[Phase 3: Move away from boss to survive explosion]
 Moving from boss is an action applying to nothing.
 Understand "move from boss" or "move away from boss" or "run from boss" or "back away" as moving from boss.
 
@@ -1364,17 +1341,17 @@ Carry out moving from boss:
 
 
 [========================
-  ROTFACE MECHANICS (TURN-BASED)
+  6th boss MECHANICS 
 ========================]
 
 Rotface-phase is a number that varies.
 Rotface-phase is 0.
-[0=inactive, 1=needs stack (spore), 2=needs dps boss, 3=needs defensive (vile gas), 4=needs finish the boss]
+
 
 Rotface-deadline is a number that varies.
 Rotface-deadline is 0.
 
-[Phase 1: Stack spores]
+
 Stacking is an action applying to nothing.
 Understand "stack" or "stack spores" or "stack with raid" as stacking.
 
@@ -1392,7 +1369,6 @@ Carry out stacking:
 	say "[paragraph break]You stack the [bold type]spores[roman type] with the raid and stabilize!";
 	say "Now weaken Rotface — type [bold type]dps boss[roman type].";
 
-[Phase 2: DPS boss (Rotface-specific so it doesn't collide)]
 DPSing rotface boss is an action applying to nothing.
 Understand "dps boss" as DPSing rotface boss when the location is Boss Room 6.
 
@@ -1410,7 +1386,6 @@ Carry out DPSing rotface boss:
 	say "[paragraph break]Rotface is [bold type]LOW[roman type]! He releases [bold type]Vile Gas[roman type]!";
 	say "Survive it — type [bold type]defensive[roman type].";
 
-[Phase 3: Defensive vs Vile Gas]
 Using rotface defensive is an action applying to nothing.
 Understand "defensive" or "use defensive" or "use defensives" as using rotface defensive.
 
@@ -1428,7 +1403,6 @@ Carry out using rotface defensive:
 	say "[paragraph break]You pop defensives and survive [bold type]Vile Gas[roman type]!";
 	say "Finish him — type [bold type]finish the boss[roman type].";
 
-[Phase 4: Finish boss (Rotface-specific)]
 Finishing Rotface is an action applying to nothing.
 Understand "finish the boss" or "finish boss" or "finish rotface" as finishing Rotface.
 
@@ -1443,14 +1417,14 @@ Carry out finishing Rotface:
 	now Rotface is defeated;
 	now yourself is out-of-combat;
 	now Rotface-phase is 0;
-	say "[paragraph break][bold type]Rotface is defeated![roman type]";
+	say "[paragraph break][bold type]Rotface is defeated!";
 	let L be loot-choice-for Rotface;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 [========================
-  PROFESSOR PUTRICIDE MECHANICS (TURN-BASED)
+  7th boss MECHANICS 
 ========================]
 
 Putricide-phase is a number that varies.
@@ -1460,7 +1434,7 @@ Putricide-phase is 0.
 Putricide-deadline is a number that varies.
 Putricide-deadline is 0.
 
-[Phase 1: Move from vial]
+
 Moving away is an action applying to nothing.
 Understand "move" or "move away" or "move out" as moving away.
 
@@ -1479,7 +1453,6 @@ Carry out moving away:
 	say "A [bold type]Green Ooze[roman type] spawns! Kill it!";
 	say "Type [bold type]dps ooze[roman type].";
 
-[Phase 2: DPS green ooze]
 DPSing green ooze is an action applying to nothing.
 Understand "dps ooze" or "dps green ooze" as DPSing green ooze.
 
@@ -1498,7 +1471,6 @@ Carry out DPSing green ooze:
 	say "A [bold type]Red Ooze[roman type] forms — RUN!";
 	say "Type [bold type]run from ooze[roman type].";
 
-[Phase 3: Run from red ooze]
 Running from ooze is an action applying to nothing.
 Understand "run from ooze" or "run" or "kite ooze" as running from ooze.
 
@@ -1517,7 +1489,6 @@ Carry out running from ooze:
 	say "[bold type]Professor Putricide goes ENRAGE![roman type]";
 	say "Survive it — type [bold type]defensive[roman type].";
 
-[Phase 4: Defensive vs Enrage - FIXED]
 
 Using putricide defensive is an action applying to nothing.
 
@@ -1539,7 +1510,6 @@ Carry out using putricide defensive:
 	say "Finish him — type [bold type]dps boss[roman type].";
 
 
-[Phase 5: DPS boss – Putricide-specific]
 DPSing putricide boss is an action applying to nothing.
 Understand "dps boss" as DPSing putricide boss when the location is Boss Room 7.
 
@@ -1554,26 +1524,25 @@ Carry out DPSing putricide boss:
 	now Professor Putricide is defeated;
 	now yourself is out-of-combat;
 	now Putricide-phase is 0;
-	say "[paragraph break][bold type]Professor Putricide is defeated![roman type]";
+	say "[paragraph break][bold type]Professor Putricide is defeated!";
 	let L be loot-choice-for Professor Putricide;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  BLOOD PRINCE COUNCIL MECHANICS (TURN-BASED)
+  8th bossMECHANICS 
 ========================]
 
 Council-phase is a number that varies.
 Council-phase is 0.
-[0=inactive, 1=needs single target, 2=needs vortex avoid, 3=needs switch target, 4=needs dps boss finish]
+
 
 Council-deadline is a number that varies.
 Council-deadline is 0.
 
 
-[Phase 1: Single Target]
 Single-targeting is an action applying to nothing.
 Understand "single target" or "single" or "single-target" as single-targeting.
 
@@ -1592,7 +1561,6 @@ Carry out single-targeting:
 	say "Suddenly a [bold type]vortex[roman type] forms on the floor!";
 	say "Avoid it — type [bold type]vortex[roman type].";
 
-[Phase 2: Vortex avoid]
 Avoiding vortex is an action applying to nothing.
 Understand "vortex" or "avoid vortex" or "move from vortex" as avoiding vortex.
 
@@ -1611,7 +1579,6 @@ Carry out avoiding vortex:
 	say "One prince shifts into a [bold type]clone form[roman type]!";
 	say "Switch target — type [bold type]switch target[roman type].";
 
-[Phase 3: Switch target]
 Switching target is an action applying to nothing.
 Understand "switch target" or "switch" or "swap target" as switching target.
 
@@ -1629,7 +1596,6 @@ Carry out switching target:
 	say "[paragraph break]You switch target instantly — perfect focus!";
 	say "Finish them — type [bold type]dps boss[roman type].";
 
-[Phase 4: Finish Council - uses its OWN action to avoid collisions]
 Finishing Council is an action applying to nothing.
 Understand "dps boss" or "kill council" or "finish council" as finishing Council
 	when the location is Boss Room 8.
@@ -1644,25 +1610,24 @@ Carry out finishing Council:
 	now Blood Prince Council is defeated;
 	now yourself is out-of-combat;
 	now Council-phase is 0;
-	say "[paragraph break][bold type]Blood Prince Council is defeated![roman type]";
+	say "[paragraph break][bold type]Blood Prince Council is defeated!";
 	let L be loot-choice-for Blood Prince Council;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  BLOOD-QUEEN LANA'THEL MECHANICS (TURN-BASED)
+  9th boss MECHANICS 
 ========================]
 
 Lana-phase is a number that varies.
 Lana-phase is 0.
-[0=inactive, 1=needs move from fire, 2=needs bite, 3=needs defensive, 4=needs dps boss]
+
 
 Lana-deadline is a number that varies.
 Lana-deadline is 0.
 
-[Phase 1: Move from fire]
 Moving from fire is an action applying to nothing.
 Understand "move from fire" or "move away from fire" or "fire" as moving from fire.
 
@@ -1681,7 +1646,6 @@ Carry out moving from fire:
 	say "She bites you with a blood curse!";
 	say "To survive, bite the antidote — type [bold type]bite[roman type].";
 
-[Phase 2: Bite antidote]
 Biting is an action applying to nothing.
 Understand "bite" as biting.
 
@@ -1700,7 +1664,6 @@ Carry out biting:
 	say "Blood-Queen Lana'thel flies up and prepares a deadly burst!";
 	say "Survive it — type [bold type]defensive[roman type].";
 
-[Phase 3: Defensive]
 Using Lana defensive is an action applying to nothing.
 Understand "defensive" or "use defensive" as using Lana defensive
 	when the location is Boss Room 9.
@@ -1720,7 +1683,6 @@ Carry out using Lana defensive:
 	say "She lands back down — finish her!";
 	say "Type [bold type]dps boss[roman type].";
 
-[Phase 4: DPS boss (LK-safe: own action only for Boss Room 9)]
 Finishing Lana is an action applying to nothing.
 Understand "dps boss" or "kill boss" or "kill lana" or "finish boss" as finishing Lana
 	when the location is Boss Room 9.
@@ -1735,30 +1697,24 @@ Carry out finishing Lana:
 	now Blood-Queen Lana'thel is defeated;
 	now yourself is out-of-combat;
 	now Lana-phase is 0;
-	say "[paragraph break][bold type]Blood-Queen Lana'thel is defeated![roman type]";
+	say "[paragraph break][bold type]Blood-Queen Lana'thel is defeated!";
 	let L be loot-choice-for Blood-Queen Lana'thel;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 [========================
-  VALITHRIA DREAMWALKER MECHANICS (TURN-BASED)
+  10th boss MECHANICS 
 ========================]
 
 Vali-phase is a number that varies.
 Vali-phase is 0.
-[0=inactive,
- 1=needs right (position),
- 2=needs dps suppresor,
- 3=needs run away (blistering zombie),
- 4=needs dps skeleton,
- 5=needs help healers]
+
 
 Vali-deadline is a number that varies.
 Vali-deadline is 0.
 
-[Phase 1: Position right]
 Positioning right is an action applying to nothing.
 Understand "right" or "go right" or "move right" as positioning right.
 
@@ -1777,7 +1733,6 @@ Carry out positioning right:
 	say "A [bold type]Suppressor[roman type] spawns and starts draining Valithria!";
 	say "Kill it — type [bold type]dps suppresor[roman type].";
 
-[Phase 2: DPS Suppresor]
 DPSing suppresor is an action applying to nothing.
 Understand "dps suppresor" or "dps suppressor" or "kill suppresor" or "kill suppressor" as DPSing suppresor.
 
@@ -1796,7 +1751,6 @@ Carry out DPSing suppresor:
 	say "A [bold type]Blistering Zombie[roman type] shambles toward you!";
 	say "Run — type [bold type]run away[roman type].";
 
-[Phase 3: Run away from zombie]
 Running away is an action applying to nothing.
 Understand "run away" or "run" or "escape" as running away.
 
@@ -1815,7 +1769,6 @@ Carry out running away:
 	say "A [bold type]Blazing Skeleton[roman type] spawns — it must die fast!";
 	say "Type [bold type]dps skeleton[roman type].";
 
-[Phase 4: DPS Skeleton]
 DPSing skeleton is an action applying to nothing.
 Understand "dps skeleton" or "kill skeleton" as DPSing skeleton.
 
@@ -1834,7 +1787,6 @@ Carry out DPSing skeleton:
 	say "Now support the healers — Valithria must be saved!";
 	say "Type [bold type]help healers[roman type].";
 
-[Phase 5: Help healers (finish encounter)]
 Helping healers is an action applying to nothing.
 Understand "help healers" or "help" or "assist healers" as helping healers.
 
@@ -1849,16 +1801,16 @@ Carry out helping healers:
 	now Valithria Dreamwalker is defeated;
 	now yourself is out-of-combat;
 	now Vali-phase is 0;
-	say "[paragraph break][bold type]Valithria Dreamwalker is saved![roman type]";
+	say "[paragraph break][bold type]Valithria Dreamwalker is saved!";
 	let L be loot-choice-for Valithria Dreamwalker;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 
 [========================
-  SINDRAGOSA MECHANICS (TURN-BASED)
+  11th boss MECHANICS 
 ========================]
 
 Sindra-phase is a number that varies.
@@ -1868,7 +1820,6 @@ Sindra-phase is 0.
 Sindra-deadline is a number that varies.
 Sindra-deadline is 0.
 
-[--- NEW: Sindragosa DPS boss (LK-safe, no collision) ---]
 DPSing Sindragosa is an action applying to nothing.
 Understand "dps boss" as DPSing Sindragosa when the location is Boss Room 11.
 Understand "dps sindragosa" or "smash sindragosa" or "attack sindragosa" as DPSing Sindragosa.
@@ -1889,17 +1840,15 @@ Carry out DPSing Sindragosa:
 		say "She begins casting [bold type]Frost Explosion[roman type]!";
 		say "Run fast — type [bold type]icy feet[roman type].";
 	otherwise:
-		[now Sindra-phase is 4]
 		now Sindragosa is defeated;
 		now yourself is out-of-combat;
 		now Sindra-phase is 0;
-		say "[paragraph break][bold type]Sindragosa is defeated![roman type]";
+		say "[paragraph break][bold type]Sindragosa is defeated!";
 		let L be loot-choice-for Sindragosa;
 		drop-loot-named L;
-		say "Loot drops: [L].";
+		say "[roman type]Loot drops: [L].";
 		say "Type [bold type]loot item[roman type] to pick it up.";
 
-[Phase 2: Run from Frost Explosion]
 Icy-feeting is an action applying to nothing.
 Understand "icy feet" or "run icy feet" or "ice feet" as icy-feeting.
 
@@ -1918,7 +1867,6 @@ Carry out icy-feeting:
 	say "Sindragosa drops [bold type]Ice Tombs[roman type] — hide behind them!";
 	say "Type [bold type]hide[roman type].";
 
-[Phase 3: Hide behind Ice Tombs]
 Hiding is an action applying to nothing.
 Understand "hide" or "hide behind tomb" or "hide behind ice" as hiding.
 
@@ -1939,12 +1887,8 @@ Carry out hiding:
 
 
 
-
-
-
-
 [========================
-  LICH KING MECHANICS (TURN-BASED)
+  12th boss MECHANICS 
 ========================]
 
 LK-phase is a number that varies.
@@ -1973,10 +1917,10 @@ Carry out using defensive:
 	say "Now punish him — type [bold type]dps boss[roman type].";
 
 
-[--- NEW: Lich King boss DPS command (DOES NOT REUSE Deathwhisper DPSing boss) ---]
+
 Smashing Lich King is an action applying to nothing.
 Understand "smash litch king" or "smash lich king" or "dps lich king" as smashing Lich King.
-[Optional alias only for LK:]
+
 Understand "dps boss" as smashing Lich King when the location is Boss Room 12.
 
 Check smashing Lich King:
@@ -1994,7 +1938,6 @@ Carry out smashing Lich King:
 		say "[paragraph break]Massive hit! The Lich King strides to the center of the platform!";
 		say "Run to safety — type [bold type]move to edge[roman type].";
 	otherwise:
-		[now LK-phase is 6]
 		now LK-phase is 7;
 		now LK-deadline is the turn count;
 		increase LK-deadline by 1;
@@ -2021,7 +1964,7 @@ Carry out moving to edge:
 	say "Adds spawn — kill them: [bold type]dps adds[roman type].";
 
 
-[--- NEW: LK-specific 'dps adds' (prevents collision with Deathwhisper/Gunship) ---]
+
 DPSing lichking adds is an action applying to nothing.
 Understand "dps adds" as DPSing lichking adds when the location is Boss Room 12.
 
@@ -2109,16 +2052,16 @@ Carry out killing the Lich King:
 	now The Lich King is defeated;
 	now yourself is out-of-combat;
 	now LK-phase is 0;
-	say "[paragraph break][bold type]THE LICH KING IS DEFEATED![roman type]";
+	say "[paragraph break][bold type]THE LICH KING IS DEFEATED!";
 	let L be loot-choice-for The Lich King;
 	drop-loot-named L;
-	say "Loot drops: [L].";
+	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
 
 [========================
-  COMBAT LOOP (NO if: BLOCKS)
+  COMBAT LOOP 
 ========================]
 
 Every turn when yourself is in-combat and in a trash room:
@@ -2137,7 +2080,7 @@ Every turn when yourself is in-combat and the location is Boss Room 1 and the cu
 	say "[paragraph break][bold type]Lord Marrowgar begins Bone Storm![roman type]";
 	say "You have [bold type]5 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
 
-[Deathwhisper loop - start sequence]
+[Deathwhisper loop]
 Every turn when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper and Deathwhisper-phase is 0:
 	now Deathwhisper-phase is 1;
 	now Deathwhisper-deadline is the turn count;
@@ -2145,7 +2088,7 @@ Every turn when yourself is in-combat and the location is Boss Room 2 and the cu
 	say "[paragraph break][bold type]Lady Deathwhisper summons adds![roman type]";
 	say "Type [bold type]dps adds[roman type] to kill them (you have 5 seconds).";
 
-[Gunship loop - start sequence]
+[Gunship loop]
 Every turn when yourself is in-combat and the location is Boss Room 3 and the current boss is Gunship Battle and Gunship-phase is 0:
 	now Gunship-phase is 1;
 	now rocket-equipped is false;
@@ -2155,7 +2098,7 @@ Every turn when yourself is in-combat and the location is Boss Room 3 and the cu
 	say "To board the enemy ship, you must [bold type]equip rocket[roman type].";
 	say "Type [bold type]equip rocket[roman type] (you have 5 seconds).";
 
-[Saurfang loop - start sequence]
+[Saurfang loop]
 Every turn when yourself is in-combat and the location is Boss Room 4 and the current boss is Deathbringer Saurfang and Saurfang-phase is 0:
 	now Saurfang-phase is 1;
 	now Saurfang-deadline is the turn count;
@@ -2164,7 +2107,7 @@ Every turn when yourself is in-combat and the location is Boss Room 4 and the cu
 	say "He summons blood beasts — kill the adds!";
 	say "Type [bold type]dps adds[roman type] (you have 5 seconds).";
 
-[Festergut loop - start sequence]
+[Festergut loop]
 Every turn when yourself is in-combat and the location is Boss Room 5 and the current boss is Festergut and Fester-phase is 0:
 	now Fester-phase is 1;
 	now Fester-deadline is the turn count;
@@ -2173,7 +2116,7 @@ Every turn when yourself is in-combat and the location is Boss Room 5 and the cu
 	say "An ooze spawns on you! Move it away from the raid!";
 	say "Type [bold type]move from raid[roman type] (you have 5 seconds).";
 
-[Rotface loop - start sequence]
+[Rotface loop]
 Every turn when yourself is in-combat and the location is Boss Room 6 and the current boss is Rotface and Rotface-phase is 0:
 	now Rotface-phase is 1;
 	now Rotface-deadline is the turn count;
@@ -2182,7 +2125,7 @@ Every turn when yourself is in-combat and the location is Boss Room 6 and the cu
 	say "[bold type]Spore[roman type] appears on you! You must stack with the raid!";
 	say "Type [bold type]stack[roman type] (you have 5 seconds).";
 
-[Putricide loop - start sequence]
+[Putricide loop]
 Every turn when yourself is in-combat and the location is Boss Room 7 and the current boss is Professor Putricide and Putricide-phase is 0:
 	now Putricide-phase is 1;
 	now Putricide-deadline is the turn count;
@@ -2192,7 +2135,7 @@ Every turn when yourself is in-combat and the location is Boss Room 7 and the cu
 	say "Move quickly — type [bold type]move[roman type] (you have 5 seconds).";
 
 
-[--- Start loop: Blood Prince Council ---]
+[Blood Prince Council loop]
 Every turn when yourself is in-combat and the location is Boss Room 8 and the current boss is Blood Prince Council and Council-phase is 0:
 	now Council-phase is 1;
 	now Council-deadline is the turn count;
@@ -2201,7 +2144,7 @@ Every turn when yourself is in-combat and the location is Boss Room 8 and the cu
 	say "You must do damage with [bold type]single target[roman type] abilities only!";
 	say "Type [bold type]single target[roman type] (you have 5 seconds).";
 
-[--- Start loop: Blood-Queen Lana'thel ---]
+[Blood-Queen Lana'thel loop]
 Every turn when yourself is in-combat and the location is Boss Room 9 and the current boss is Blood-Queen Lana'thel and Lana-phase is 0:
 	now Lana-phase is 1;
 	now Lana-deadline is the turn count;
@@ -2211,7 +2154,7 @@ Every turn when yourself is in-combat and the location is Boss Room 9 and the cu
 	say "Move away — type [bold type]move from fire[roman type] (you have 5 seconds).";
 	
 
-[--- Start loop: Valithria Dreamwalker ---]
+[Valithria Dreamwalker loop]
 Every turn when yourself is in-combat and the location is Boss Room 10 and the current boss is Valithria Dreamwalker and Vali-phase is 0:
 	now Vali-phase is 1;
 	now Vali-deadline is the turn count;
@@ -2221,7 +2164,7 @@ Every turn when yourself is in-combat and the location is Boss Room 10 and the c
 	say "Go right — type [bold type]right[roman type] (you have 5 seconds).";
 	
 
-[--- Start loop: Sindragosa ---]
+[Sindragosa loop]
 Every turn when yourself is in-combat and the location is Boss Room 11 and the current boss is Sindragosa and Sindra-phase is 0:
 	now Sindra-phase is 1;
 	now Sindra-deadline is the turn count;
@@ -2231,15 +2174,7 @@ Every turn when yourself is in-combat and the location is Boss Room 11 and the c
 	say "Type [bold type]dps boss[roman type] (you have 5 seconds).";
 
 
-
-
-
-
-
-
-
-
-[Lich King loop - start sequence]
+[Lich King loop]
 Every turn when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King and LK-phase is 0:
 	now LK-phase is 1;
 	now LK-deadline is the turn count;
@@ -2249,7 +2184,7 @@ Every turn when yourself is in-combat and the location is Boss Room 12 and the c
 	say "Type [bold type]use defensive[roman type] (you have 5 seconds).";
 
 [========================
-  CONTEXT COMMAND OPTIONS (AFTER EACH TURN)
+  CONTEXT OPTIONS
 ========================]
 
 Every turn when the player is alive and gear-broken is false:
@@ -2262,7 +2197,7 @@ Every turn when the player is alive and gear-broken is false:
 		otherwise if in a boss room:
 			say "fight, look, inventory, go <direction>.";
 		otherwise if the location is ICC Entrance:
-			say "go <direction>, look, inventory, die (debug), repair (if needed).";
+			say "go <direction>, look, inventory, repair (if needed).";
 		otherwise:
 			say "go <direction>, look, inventory.";
 [========================
