@@ -4446,7 +4446,7 @@ Constant EMPTY_TEXT_PACKED = "";
 Constant I7_VERSION_NUMBER = "10.1.2";
 Constant I7_FULL_VERSION_NUMBER = "10.1.2";
 Constant alphabetised_text_0 = "2 Upgrade marks";
-Serial "260112";
+Serial "260118";
 Constant alphabetised_text_1 = ">";
 Constant alphabetised_text_2 = "A freshly dropped raid item.";
 Constant alphabetised_text_3 = "An Interactive Fiction";

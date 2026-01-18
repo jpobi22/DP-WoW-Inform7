@@ -2,9 +2,7 @@
 
 Release along with an interpreter.
 
-[========================
-  PLAYER STATE
-========================]
+
 
 A person can be alive or dead.
 The player is alive.
@@ -15,26 +13,20 @@ To say raid-status:
 When play begins:
 	say "Welcome to Icecrown Citadel, mortal. Status: [raid-status].".
 
-[========================
-  OPEN WORLD
-========================]
+
 
 The Open World Graveyard is a room.
 "You are DEAD and teleported to the graveyard outside the raid. The cold winds howls. Other spirits are whispering to you. Do not listen to them. Go to the light.
 You can only return by typing [bold type]release spirit[roman type]."
 
-[========================
-  ICECROWN CITADEL
-========================]
+
 
 The ICC Entrance is a room.
 "You are now at the ICC entrance inside the citadel. Next to you is a repair man and infront of you is the next room with enemy units."
 
 The player is in the ICC Entrance.
 
-[========================
-  RAID ROOMS
-========================]
+
 
 The Trash 1 is north of the ICC Entrance.
 The Boss Room 1 is north of Trash 1.
@@ -72,9 +64,7 @@ The Boss Room 11 is north of Trash 11.
 The Trash 12 is south of the Boss Room 11.
 The Boss Room 12 is north of Trash 12.
 
-[========================
-  TELEPORTERS
-========================]
+
 
 The Entrance Teleporter is a thing in the ICC Entrance.
 The description is "A frosty teleport pad made by The Old Gods. Type [bold type]teleport list[roman type] to see destinations, or [bold type]teleport to <number>[roman type] (1-12).".
@@ -83,9 +73,7 @@ The Throne Teleporter is a thing.
 The Throne Teleporter is nowhere.
 The description of the Throne Teleporter is "A frozen teleport pad empowered by the Lich King's fall. Type [bold type]teleport list[roman type] or [bold type]teleport to <number>[roman type].".
 
-[========================
-  KINDS
-========================]
+
 
 A raid-boss is a kind of person.
 A raid-boss has a number called boss-id.
@@ -97,9 +85,7 @@ A trash-mob has a number called trash-id.
 A trash-mob can be alive-trash or dead-trash.
 A trash-mob is alive-trash.
 
-[========================
-  BOSSES
-========================]
+
 
 Lord Marrowgar is a raid-boss in the Boss Room 1.
 The boss-id of Lord Marrowgar is 1.
@@ -137,9 +123,7 @@ The boss-id of Sindragosa is 11.
 The Lich King is a raid-boss in the Boss Room 12.
 The boss-id of The Lich King is 12.
 
-[========================
-  TRASH MOBS
-========================]
+
 
 Trash Pack 1 is a trash-mob in Trash 1.
 The trash-id of Trash Pack 1 is 1.
@@ -156,9 +140,7 @@ Trash Pack 10 is a trash-mob in Trash 10.
 Trash Pack 11 is a trash-mob in Trash 11.
 Trash Pack 12 is a trash-mob in Trash 12.
 
-[========================
-  LOOT
-========================]
+
 
 To decide what text is loot-choice-for (B - a raid-boss):
 	if B is Lord Marrowgar:
@@ -264,9 +246,6 @@ To say random-loot-for (B - a raid-boss):
 	say "[loot-choice-for B]".
 
 
-[========================
-  LOOT ITEMS
-========================]
 
 A loot-item is a kind of thing.
 A loot-item is portable.
@@ -312,9 +291,7 @@ Carry out looting:
 	otherwise:
 		say "There's no loot to take.".
 
-[========================
-  LOOK: MOBS & BOSSES
-========================]
+
 
 After looking when in a trash room:
 	if the current trash is dead-trash:
@@ -331,9 +308,7 @@ After looking:
 			say " - [printed name of X][line break]".
 
 
-[========================
-  DURABILITY & REPAIR
-========================]
+
 
 The revive-without-repair count is a number that varies.
 The revive-without-repair count is 0.
@@ -353,9 +328,7 @@ Carry out repairing:
 	now gear-broken is false;
 	say "You have successfully repaired your gear. Durability on all of your gear is not back to full.";
 
-[========================
-  COMBAT STATE
-========================]
+
 
 Yourself can be in-combat or out-of-combat.
 Yourself is out-of-combat.
@@ -378,9 +351,7 @@ To decide which raid-boss is the current boss:
 To decide which trash-mob is the current trash:
 	let T be a random trash-mob in the location;
 	decide on T.
-[========================
-  TELEPORT IDs
-========================]
+
 
 To decide which raid-boss is boss-with-id (N - a number):
 	repeat with B running through raid-bosses:
@@ -403,9 +374,7 @@ To decide which room is trash-room-with-id (N - a number):
 	decide on Trash 12.
 
 
-[========================
-  DEATH
-========================]
+
 
 Dying is an action applying to nothing.
 Understand "die" as dying.
@@ -462,9 +431,7 @@ Before doing something when gear-broken is true:
 		continue the action;
 	say "Your gear is broken. Type [bold type]repair[roman type]." instead.
 
-[========================
-  BLOCK ACTIONS WHILE DEAD
-========================]
+
 
 Before doing something when the player is dead:
 	if the current action is releasing spirit:
@@ -473,9 +440,7 @@ Before doing something when the player is dead:
 		continue the action;
 	say "You are dead. Only [bold type]release spirit[roman type] works now." instead.
 
-[========================
-  FIGHT ACTION
-========================]
+
 
 Fighting is an action applying to nothing.
 Understand "fight" or "pull" or "attack" as fighting.
@@ -503,9 +468,7 @@ Carry out fighting:
 		now boss-fight-turns is 0;
 		say "You pull [the current boss]! The boss encounter begins!";
 
-[========================
-  SKIP BLOCK
-========================]
+
 
 Before going north when in a trash room:
 	if the current trash is alive-trash:
@@ -515,15 +478,11 @@ Before going north when in a boss room:
 	if the current boss is undefeated:
 		say "[The current boss] blocks the way. Type [bold type]fight[roman type] to start the encounter." instead.
 		
-[========================
-  NO LEAVING
-========================]
+
 
 Before going when yourself is in-combat and in a boss room:
 	say "You can't leave now — the boss fight is in progress!" instead.
-[========================
-  TELEPORT OPTIONS
-========================]
+
 
 Teleport-listing is an action applying to nothing.
 Understand "teleport list" or "teleport destinations" or "teleport" or "teleporter" as teleport-listing.
@@ -586,9 +545,7 @@ Carry out teleporting-to:
 	try looking.
 
 
-[========================
- BOSS MECHANICS
-========================]
+
 
 Marrowgar-phase is a number that varies.
 Marrowgar-phase is 0. 
@@ -605,7 +562,7 @@ To hard-kill-player:
 	move the player to the Open World Graveyard;
 	say "[paragraph break][bold type]You died.[roman type] Type [bold type]release spirit[roman type].";
 
-[Hard fail: if the deadline passed, you die BEFORE any command]
+
 Before doing something when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar:
 	if Marrowgar-phase is 1 and the turn count > Marrowgar-deadline:
 		say "[paragraph break]Too late! Bone Storm already hits you.";
@@ -620,7 +577,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Marrowgar-phase is 0;
 		stop the action;
 
-[Hard fail: Deathwhisper deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper:
 	if Deathwhisper-phase is 1 and the turn count > Deathwhisper-deadline:
 		say "[paragraph break]Too late! The adds overwhelm the raid.";
@@ -641,7 +598,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Deathwhisper-phase is 0;
 		stop the action;
 		
-[Hard fail: Gunship deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 3 and the current boss is Gunship Battle:
 	if Gunship-phase is 1 and the turn count > Gunship-deadline:
 		say "[paragraph break]Too late! Without the rocket jump, the raid loses the ship.";
@@ -679,7 +636,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now rocket-equipped is false;
 		stop the action;
 
-[Hard fail: Saurfang deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 4 and the current boss is Deathbringer Saurfang:
 	if Saurfang-phase is 1 and the turn count > Saurfang-deadline:
 		say "[paragraph break]Too late! The adds tear through the raid. Wipe.";
@@ -706,7 +663,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Saurfang-phase is 0;
 		stop the action;
 
-[Hard fail: Festergut deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 5 and the current boss is Festergut:
 	if Fester-phase is 1 and the turn count > Fester-deadline:
 		say "[paragraph break]Too late! The ooze melts into the raid and you wipe.";
@@ -733,7 +690,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Fester-phase is 0;
 		stop the action;
 
-[Hard fail: Rotface deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 6 and the current boss is Rotface:
 	if Rotface-phase is 1 and the turn count > Rotface-deadline:
 		say "[paragraph break]Too late! You fail to stack spores properly and the raid collapses.";
@@ -760,7 +717,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Rotface-phase is 0;
 		stop the action;
 
-[Hard fail: Professor Putricide deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 7 and the current boss is Professor Putricide:
 	if Putricide-phase is 1 and the turn count > Putricide-deadline:
 		say "[paragraph break]Too late! The vile vial explodes under your feet. Wipe.";
@@ -793,7 +750,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Putricide-phase is 0;
 		stop the action;
 
-[--- Hard fail: Blood Prince Council deadlines ---]
+
 Before doing something when yourself is in-combat and the location is Boss Room 8 and the current boss is Blood Prince Council:
 	if Council-phase is 1 and the turn count > Council-deadline:
 		say "[paragraph break]Too late! You waste damage with AoE and the Council overwhelms the raid.";
@@ -820,7 +777,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Council-phase is 0;
 		stop the action;
 
-[--- Hard fail: Blood-Queen deadlines ---]
+
 Before doing something when yourself is in-combat and the location is Boss Room 9 and the current boss is Blood-Queen Lana'thel:
 	if Lana-phase is 1 and the turn count > Lana-deadline:
 		say "[paragraph break]Too late! The fire spreads under your feet and you burn down.";
@@ -847,7 +804,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Lana-phase is 0;
 		stop the action;
 		
-[--- Hard fail: Valithria deadlines ---]
+
 Before doing something when yourself is in-combat and the location is Boss Room 10 and the current boss is Valithria Dreamwalker:
 	if Vali-phase is 1 and the turn count > Vali-deadline:
 		say "[paragraph break]Too late! You fail to position and the raid loses control of the room.";
@@ -880,7 +837,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now Vali-phase is 0;
 		stop the action;
 		
-[--- Hard fail: Sindragosa deadlines ---]
+
 Before doing something when yourself is in-combat and the location is Boss Room 11 and the current boss is Sindragosa:
 	if Sindra-phase is 1 and the turn count > Sindra-deadline:
 		say "[paragraph break]Too late! You don't push enough damage and Sindragosa overwhelms the raid.";
@@ -906,8 +863,7 @@ Before doing something when yourself is in-combat and the location is Boss Room 
 		now yourself is out-of-combat;
 		now Sindra-phase is 0;
 		stop the action;
-		
-[Hard fail: Lich King deadlines]
+
 Before doing something when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King:
 	if LK-phase is 1 and the turn count > LK-deadline:
 		say "[paragraph break]Too late! Soul Reaper cleaves you down.";
@@ -1003,9 +959,6 @@ Carry out DPSing:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  2nd boss MECHANICS
-========================]
 
 Deathwhisper-phase is a number that varies.
 Deathwhisper-phase is 0. 
@@ -1066,10 +1019,6 @@ Carry out finishing boss:
 	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 	
-
-[========================
-  3rd boss MECHANICS 
-========================]
 
 Gunship-phase is a number that varies.
 Gunship-phase is 0.
@@ -1177,9 +1126,6 @@ Carry out DPSing gunship adds:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  4th boss MECHANICS 
-========================]
 
 Saurfang-phase is a number that varies.
 Saurfang-phase is 0.
@@ -1264,9 +1210,6 @@ Carry out DPSing saurfang boss:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  5th boss MECHANICS 
-========================]
 
 Fester-phase is a number that varies.
 Fester-phase is 0.
@@ -1340,9 +1283,6 @@ Carry out moving from boss:
 	say "Finish him now — type [bold type]dps boss[roman type].";
 
 
-[========================
-  6th boss MECHANICS 
-========================]
 
 Rotface-phase is a number that varies.
 Rotface-phase is 0.
@@ -1423,9 +1363,6 @@ Carry out finishing Rotface:
 	say "[roman type]Loot drops: [L].";
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
-[========================
-  7th boss MECHANICS 
-========================]
 
 Putricide-phase is a number that varies.
 Putricide-phase is 0.
@@ -1531,10 +1468,6 @@ Carry out DPSing putricide boss:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  8th bossMECHANICS 
-========================]
-
 Council-phase is a number that varies.
 Council-phase is 0.
 
@@ -1617,9 +1550,6 @@ Carry out finishing Council:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  9th boss MECHANICS 
-========================]
 
 Lana-phase is a number that varies.
 Lana-phase is 0.
@@ -1704,9 +1634,6 @@ Carry out finishing Lana:
 	say "Type [bold type]loot item[roman type] to pick it up.";
 
 
-[========================
-  10th boss MECHANICS 
-========================]
 
 Vali-phase is a number that varies.
 Vali-phase is 0.
@@ -1809,10 +1736,6 @@ Carry out helping healers:
 
 
 
-[========================
-  11th boss MECHANICS 
-========================]
-
 Sindra-phase is a number that varies.
 Sindra-phase is 0.
 
@@ -1886,10 +1809,6 @@ Carry out hiding:
 	say "Type [bold type]dps boss[roman type].";
 
 
-
-[========================
-  12th boss MECHANICS 
-========================]
 
 LK-phase is a number that varies.
 LK-phase is 0.
@@ -2060,10 +1979,6 @@ Carry out killing the Lich King:
 
 
 
-[========================
-  COMBAT LOOP 
-========================]
-
 Every turn when yourself is in-combat and in a trash room:
 	say "[line break][italic type]Trash fight:[roman type] the raid cleaves through undead...";
 	now the current trash is dead-trash;
@@ -2072,7 +1987,7 @@ Every turn when yourself is in-combat and in a trash room:
 
 
 
-[Marrowgar loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 1 and the current boss is Lord Marrowgar and Marrowgar-phase is 0:
 	now Marrowgar-phase is 1;
 	now Marrowgar-deadline is the turn count;
@@ -2080,7 +1995,7 @@ Every turn when yourself is in-combat and the location is Boss Room 1 and the cu
 	say "[paragraph break][bold type]Lord Marrowgar begins Bone Storm![roman type]";
 	say "You have [bold type]5 seconds[roman type] to type [bold type]DODGE[roman type] or you die.";
 
-[Deathwhisper loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 2 and the current boss is Lady Deathwhisper and Deathwhisper-phase is 0:
 	now Deathwhisper-phase is 1;
 	now Deathwhisper-deadline is the turn count;
@@ -2088,7 +2003,7 @@ Every turn when yourself is in-combat and the location is Boss Room 2 and the cu
 	say "[paragraph break][bold type]Lady Deathwhisper summons adds![roman type]";
 	say "Type [bold type]dps adds[roman type] to kill them (you have 5 seconds).";
 
-[Gunship loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 3 and the current boss is Gunship Battle and Gunship-phase is 0:
 	now Gunship-phase is 1;
 	now rocket-equipped is false;
@@ -2098,7 +2013,7 @@ Every turn when yourself is in-combat and the location is Boss Room 3 and the cu
 	say "To board the enemy ship, you must [bold type]equip rocket[roman type].";
 	say "Type [bold type]equip rocket[roman type] (you have 5 seconds).";
 
-[Saurfang loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 4 and the current boss is Deathbringer Saurfang and Saurfang-phase is 0:
 	now Saurfang-phase is 1;
 	now Saurfang-deadline is the turn count;
@@ -2116,7 +2031,7 @@ Every turn when yourself is in-combat and the location is Boss Room 5 and the cu
 	say "An ooze spawns on you! Move it away from the raid!";
 	say "Type [bold type]move from raid[roman type] (you have 5 seconds).";
 
-[Rotface loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 6 and the current boss is Rotface and Rotface-phase is 0:
 	now Rotface-phase is 1;
 	now Rotface-deadline is the turn count;
@@ -2125,7 +2040,7 @@ Every turn when yourself is in-combat and the location is Boss Room 6 and the cu
 	say "[bold type]Spore[roman type] appears on you! You must stack with the raid!";
 	say "Type [bold type]stack[roman type] (you have 5 seconds).";
 
-[Putricide loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 7 and the current boss is Professor Putricide and Putricide-phase is 0:
 	now Putricide-phase is 1;
 	now Putricide-deadline is the turn count;
@@ -2135,7 +2050,7 @@ Every turn when yourself is in-combat and the location is Boss Room 7 and the cu
 	say "Move quickly — type [bold type]move[roman type] (you have 5 seconds).";
 
 
-[Blood Prince Council loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 8 and the current boss is Blood Prince Council and Council-phase is 0:
 	now Council-phase is 1;
 	now Council-deadline is the turn count;
@@ -2144,7 +2059,7 @@ Every turn when yourself is in-combat and the location is Boss Room 8 and the cu
 	say "You must do damage with [bold type]single target[roman type] abilities only!";
 	say "Type [bold type]single target[roman type] (you have 5 seconds).";
 
-[Blood-Queen Lana'thel loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 9 and the current boss is Blood-Queen Lana'thel and Lana-phase is 0:
 	now Lana-phase is 1;
 	now Lana-deadline is the turn count;
@@ -2154,7 +2069,7 @@ Every turn when yourself is in-combat and the location is Boss Room 9 and the cu
 	say "Move away — type [bold type]move from fire[roman type] (you have 5 seconds).";
 	
 
-[Valithria Dreamwalker loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 10 and the current boss is Valithria Dreamwalker and Vali-phase is 0:
 	now Vali-phase is 1;
 	now Vali-deadline is the turn count;
@@ -2164,7 +2079,7 @@ Every turn when yourself is in-combat and the location is Boss Room 10 and the c
 	say "Go right — type [bold type]right[roman type] (you have 5 seconds).";
 	
 
-[Sindragosa loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 11 and the current boss is Sindragosa and Sindra-phase is 0:
 	now Sindra-phase is 1;
 	now Sindra-deadline is the turn count;
@@ -2174,7 +2089,7 @@ Every turn when yourself is in-combat and the location is Boss Room 11 and the c
 	say "Type [bold type]dps boss[roman type] (you have 5 seconds).";
 
 
-[Lich King loop]
+
 Every turn when yourself is in-combat and the location is Boss Room 12 and the current boss is The Lich King and LK-phase is 0:
 	now LK-phase is 1;
 	now LK-deadline is the turn count;
@@ -2183,9 +2098,7 @@ Every turn when yourself is in-combat and the location is Boss Room 12 and the c
 	say "He swings with [bold type]Soul Reaper[roman type]! Survive it!";
 	say "Type [bold type]use defensive[roman type] (you have 5 seconds).";
 
-[========================
-  CONTEXT OPTIONS
-========================]
+
 
 Every turn when the player is alive and gear-broken is false:
 	say "[paragraph break][bold type]Available commands:[roman type] ";
@@ -2200,9 +2113,7 @@ Every turn when the player is alive and gear-broken is false:
 			say "go <direction>, look, inventory, repair (if needed).";
 		otherwise:
 			say "go <direction>, look, inventory.";
-[========================
-  THRONE TELEPORTER UNLOCK
-========================]
+
 
 Every turn:
 	if The Lich King is defeated and the Throne Teleporter is nowhere:
@@ -2210,8 +2121,6 @@ Every turn:
 		say "[paragraph break][bold type]A frozen teleporter forms beside the Lich King's throne.[roman type]";
 		say "You can now use [bold type]teleport list[roman type] and [bold type]teleport to <number>[roman type] from here.";
 
-[========================
-  TEST
-========================]
+
 
 Test me with "look / n / fight / dodge / dps / n / w / fight".
