@@ -2022,7 +2022,6 @@ Every turn when yourself is in-combat and the location is Boss Room 4 and the cu
 	say "He summons blood beasts — kill the adds!";
 	say "Type [bold type]dps adds[roman type] (you have 5 seconds).";
 
-[Festergut loop]
 Every turn when yourself is in-combat and the location is Boss Room 5 and the current boss is Festergut and Fester-phase is 0:
 	now Fester-phase is 1;
 	now Fester-deadline is the turn count;
